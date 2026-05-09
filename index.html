@@ -29,7 +29,6 @@
     cursor: crosshair;
   }
 
-  /* ─── SCANLINE OVERLAY ─── */
   body::before {
     content:'';
     position:fixed; inset:0; z-index:9999;
@@ -43,7 +42,6 @@
     pointer-events:none;
   }
 
-  /* ─── NOISE TEXTURE ─── */
   body::after {
     content:'';
     position:fixed; inset:0; z-index:9998;
@@ -52,9 +50,6 @@
     pointer-events:none;
   }
 
-  /* ══════════════════════════════════════
-     LOADING SCREEN
-  ══════════════════════════════════════ */
   #loader {
     position:fixed; inset:0; z-index:9000;
     background: #000;
@@ -153,9 +148,6 @@
   }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  /* ══════════════════════════════════════
-     NAVBAR
-  ══════════════════════════════════════ */
   nav {
     position:fixed; top:0; left:0; right:0; z-index:100;
     border-bottom:1px solid var(--border);
@@ -207,9 +199,6 @@
   }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
 
-  /* ══════════════════════════════════════
-     MAIN CONTENT
-  ══════════════════════════════════════ */
   main {
     padding-top:56px;
     opacity:0;
@@ -217,7 +206,6 @@
   }
   main.visible { opacity:1; }
 
-  /* ─── SECTION BASE ─── */
   section {
     padding: clamp(60px, 10vw, 120px) clamp(16px, 8vw, 120px);
     position:relative;
@@ -233,9 +221,6 @@
     width:24px; height:1px; background:var(--accent);
   }
 
-  /* ═══════════════════════
-     HERO
-  ═══════════════════════ */
   #hero {
     min-height: 100svh;
     display:flex; align-items:center;
@@ -361,7 +346,6 @@
   }
   .btn-ghost:hover { color:var(--accent); border-color:var(--accent); }
 
-  /* HUD stats panel */
   .hero-hud {
     position:absolute; right:clamp(16px,6vw,80px); top:50%;
     transform:translateY(-50%);
@@ -391,9 +375,6 @@
     display:flex; justify-content:space-between;
   }
 
-  /* ═══════════════════════
-     ABOUT
-  ═══════════════════════ */
   #about {
     background: var(--bg);
     border-top:1px solid var(--border);
@@ -446,9 +427,6 @@
   .about-stat:last-child{border-bottom:none;}
   .about-stat-val { color:var(--accent); font-family:'Orbitron',sans-serif; font-size:13px; }
 
-  /* ═══════════════════════
-     ACTIVITIES
-  ═══════════════════════ */
   #activities {
     background: var(--bg2);
     border-top:1px solid var(--border);
@@ -511,9 +489,6 @@
     color:var(--text-dim);
   }
 
-  /* ═══════════════════════
-     MEMBERS TEASER
-  ═══════════════════════ */
   #members-teaser {
     border-top:1px solid var(--border);
     text-align:center;
@@ -557,9 +532,6 @@
   .t-line .cmd {color:var(--text);}
   .t-line .out {color:var(--text-dim);}
 
-  /* ═══════════════════════
-     CONTACT
-  ═══════════════════════ */
   #contact {
     border-top:1px solid var(--border);
     background: var(--bg2);
@@ -599,28 +571,33 @@
   }
 
   .recruit-box {
-    border:1px solid var(--accent);
-    background:rgba(42,222,2,0.06);
+    border:1px solid var(--border);
+    background:rgba(42,222,2,0.03);
     padding:28px;
     position:relative;
     clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
   }
   .recruit-box::after {
-    content:'▶ RECRUITING';
+    content:'▶ RECRUITMENT';
     position:absolute; top:-8px; right:32px;
     background:var(--bg2); padding:0 8px;
-    font-size:9px; letter-spacing:4px; color:var(--accent);
+    font-size:9px; letter-spacing:4px; color:var(--text-dim);
   }
   .recruit-title {
     font-family:'Orbitron',sans-serif;
     font-size:16px; font-weight:700;
-    color:var(--accent); margin-bottom:12px;
+    color:var(--text-dim); margin-bottom:12px;
+  }
+  .recruit-status {
+    display:inline-block;
+    font-size:11px; letter-spacing:3px;
+    padding:4px 12px;
+    border:1px solid var(--danger);
+    color:var(--danger);
+    margin-bottom:16px;
   }
   .recruit-text { font-size:12px; color:var(--text-dim); line-height:1.7; }
 
-  /* ═══════════════════════
-     FOOTER
-  ═══════════════════════ */
   footer {
     border-top:1px solid var(--border);
     padding:24px clamp(16px,8vw,120px);
@@ -636,21 +613,17 @@
   .footer-logo .ku {color:var(--accent);}
   .footer-right { text-align:right; }
 
-  /* ═══════════════════════
-     SCROLL REVEAL
-  ═══════════════════════ */
   .reveal {
     opacity:0;
     transform: translateY(24px);
     transition: opacity .7s ease, transform .7s ease;
   }
   .reveal.shown { opacity:1; transform:translateY(0); }
-
 </style>
 </head>
 <body>
 
-<!-- ─── LOADING SCREEN ─── -->
+<!-- LOADING SCREEN -->
 <div id="loader">
   <div class="loader-grid"></div>
   <div class="loader-corners lc-tl"></div>
@@ -675,7 +648,7 @@
   </div>
 </div>
 
-<!-- ─── NAVBAR ─── -->
+<!-- NAVBAR -->
 <nav>
   <div class="nav-logo">se<span class="ku">KU</span>rity</div>
   <ul class="nav-links">
@@ -690,14 +663,14 @@
   </div>
 </nav>
 
-<!-- ─── MAIN ─── -->
+<!-- MAIN -->
 <main id="main">
 
   <!-- HERO -->
   <section id="hero">
     <div class="hero-grid"></div>
     <div class="hero-inner">
-      <div class="hero-eyebrow">KOREA UNIVERSITY SECURITY CLUB</div>
+      <div class="hero-eyebrow">건국대학교 글로컬캠퍼스 컴퓨터공학과 보안 소모임</div>
       <h1 class="hero-title">
         <span class="glitch" data-text="se">se</span><span class="ku">KU</span>rity
       </h1>
@@ -708,11 +681,10 @@
       </p>
       <div class="hero-btns">
         <a href="#about" class="btn-primary">▶ ENTER SYSTEM</a>
-        <a href="#contact" class="btn-ghost">JOIN US</a>
+        <a href="#contact" class="btn-ghost">CONTACT</a>
       </div>
     </div>
 
-    <!-- HUD Panel -->
     <div class="hero-hud">
       <div class="hud-header">
         <span>sys_status</span>
@@ -729,8 +701,8 @@
         <div class="hud-bar"><div class="hud-bar-fill" style="width:88%"></div></div>
       </div>
       <div class="hud-row" style="flex-direction:column; align-items:flex-start; gap:6px;margin-top:14px;">
-        <div class="hud-label">CTF SCORE</div>
-        <div class="hud-value">████████</div>
+        <div class="hud-label">RECRUIT</div>
+        <div class="hud-value" style="color:#ff3030;">CLOSED</div>
       </div>
       <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border); font-size:9px; color:var(--text-dim); letter-spacing:2px;">
         ROOT@SEKURITY:~#&nbsp;<span id="cmd-blink" style="color:var(--accent);">_</span>
@@ -747,7 +719,7 @@
           우리는 누구인가<br><span>seKUrity</span>
         </h2>
         <p class="about-text reveal">
-          seKUrity는 고려대학교 학생들로 구성된 정보보안 소모임입니다.
+          seKUrity는 건국대학교 글로컬캠퍼스 컴퓨터공학과 학생들로 구성된 정보보안 소모임입니다.
           CTF(Capture the Flag) 대회 참여, 보안 기술 스터디, 웹 해킹, 포렌식, 리버싱 등
           다양한 분야의 보안 활동을 함께합니다.
         </p>
@@ -760,7 +732,11 @@
         <div class="about-card-title">// CLUB_INFO.json</div>
         <div class="about-stat">
           <span>소속</span>
-          <span class="about-stat-val">고려대학교</span>
+          <span class="about-stat-val">건국대 글로컬</span>
+        </div>
+        <div class="about-stat">
+          <span>학과</span>
+          <span class="about-stat-val">컴퓨터공학과</span>
         </div>
         <div class="about-stat">
           <span>분야</span>
@@ -772,7 +748,7 @@
         </div>
         <div class="about-stat">
           <span>모집</span>
-          <span class="about-stat-val" style="color:#2ade02;">OPEN</span>
+          <span class="about-stat-val" style="color:#ff3030;">CLOSED</span>
         </div>
         <div class="about-stat">
           <span>STATUS</span>
@@ -790,38 +766,38 @@
       <div class="act-card">
         <div class="act-num">01</div>
         <div class="act-icon">🚩</div>
-        <div class="act-name">CTF COMPETITION</div>
-        <div class="act-desc">국내외 CTF 대회에 팀으로 참가합니다. Dreamhack, Hack The Box 등 다양한 플랫폼에서 실전 경험을 쌓습니다.</div>
+        <div class="act-name">CTF</div>
+        <div class="act-desc">국내외 CTF 대회에 팀으로 참여합니다. 각자의 분야에서 익힌 기술을 실전에서 발휘합니다.</div>
       </div>
       <div class="act-card">
         <div class="act-num">02</div>
-        <div class="act-icon">🔍</div>
-        <div class="act-name">FORENSICS</div>
-        <div class="act-desc">디지털 포렌식 기법을 학습합니다. 메모리 분석, 파일 시스템 분석, 네트워크 패킷 분석 등을 다룹니다.</div>
+        <div class="act-icon">🌐</div>
+        <div class="act-name">WEB HACKING</div>
+        <div class="act-desc">웹 취약점에 대해 공부하고 분석하며 실습을 진행합니다. 개인 스터디를 통해 각자 역량을 키웁니다.</div>
       </div>
       <div class="act-card">
         <div class="act-num">03</div>
-        <div class="act-icon">🌐</div>
-        <div class="act-name">WEB HACKING</div>
-        <div class="act-desc">웹 취약점 분석과 실습. SQL Injection, XSS, CSRF 등 OWASP Top 10 취약점을 직접 분석하고 방어합니다.</div>
+        <div class="act-icon">⚙️</div>
+        <div class="act-name">REVERSING</div>
+        <div class="act-desc">바이너리 분석과 리버스 엔지니어링을 개인 스터디로 학습합니다. IDA Pro, Ghidra 등의 툴을 활용합니다.</div>
       </div>
       <div class="act-card">
         <div class="act-num">04</div>
-        <div class="act-icon">⚙️</div>
-        <div class="act-name">REVERSING</div>
-        <div class="act-desc">바이너리 분석과 리버스 엔지니어링. 어셈블리 언어부터 IDA Pro, Ghidra 활용까지 체계적으로 학습합니다.</div>
+        <div class="act-icon">🔐</div>
+        <div class="act-name">CRYPTOGRAPHY</div>
+        <div class="act-desc">암호학 이론과 응용을 개인 스터디로 탐구합니다. 현대 암호 시스템의 원리와 취약점을 분석합니다.</div>
       </div>
       <div class="act-card">
         <div class="act-num">05</div>
-        <div class="act-icon">💻</div>
-        <div class="act-name">SYSTEM / PWN</div>
-        <div class="act-desc">시스템 해킹과 익스플로잇 개발. 버퍼 오버플로우, ROP 체인, 쉘코드 작성 등 로우레벨 보안을 탐구합니다.</div>
+        <div class="act-icon">🔍</div>
+        <div class="act-name">FORENSICS</div>
+        <div class="act-desc">디지털 포렌식 기법을 개인 스터디로 학습합니다. 메모리 분석, 파일 시스템, 네트워크 패킷 분석 등을 다룹니다.</div>
       </div>
       <div class="act-card">
         <div class="act-num">06</div>
-        <div class="act-icon">🔐</div>
-        <div class="act-name">CRYPTOGRAPHY</div>
-        <div class="act-desc">암호학 이론과 응용. RSA, AES, ECC 등 현대 암호 시스템의 원리와 취약점을 분석합니다.</div>
+        <div class="act-icon">💻</div>
+        <div class="act-name">SYSTEM / PWN</div>
+        <div class="act-desc">시스템 해킹과 익스플로잇을 개인 스터디로 연구합니다. 버퍼 오버플로우, ROP 체인 등 로우레벨 보안을 탐구합니다.</div>
       </div>
     </div>
   </section>
@@ -838,9 +814,6 @@
         <div class="t-line" style="color:var(--accent);">[ PAGE UNDER CONSTRUCTION ]</div>
         <div class="t-line"><span class="prompt">root@sekurity:~# </span><span class="blink-cursor" style="display:inline-block;width:8px;height:12px;background:var(--accent);"></span></div>
       </div>
-      <div style="margin-top:24px;" class="reveal">
-        <a href="#contact" class="btn-primary" style="display:inline-flex;">▶ JOIN THE CREW</a>
-      </div>
     </div>
   </section>
 
@@ -852,7 +825,7 @@
       <div>
         <p class="contact-desc">
           seKUrity에 관심이 있으신가요? 언제든 연락주세요.<br>
-          신입 부원 모집, 협업 제안, 기타 문의 모두 환영합니다.
+          협업 제안, 기타 문의 모두 환영합니다.
         </p>
         <div class="contact-info">
           <div class="contact-item">
@@ -873,11 +846,12 @@
       </div>
       <div>
         <div class="recruit-box reveal">
-          <div class="recruit-title">신입 부원 모집 중</div>
+          <div class="recruit-title">신입 부원 모집</div>
+          <div class="recruit-status">● CLOSED</div>
           <p class="recruit-text">
-            보안에 관심 있는 고려대학교 학생이라면 누구나 지원 가능합니다.
-            전공 무관, 경험 무관. 열정만 있으면 됩니다.<br><br>
-            <span style="color:var(--accent);">// 지원 방법: 위 이메일로 문의</span>
+            신입 부원은 <span style="color:var(--text);">매 학기 초반</span>에 모집합니다.<br>
+            지원 방법은 모집 시기에 맞춰 별도 Form을 배포할 예정입니다.<br><br>
+            <span style="color:var(--accent);">// 모집 공지는 추후 업데이트 예정</span>
           </p>
         </div>
       </div>
@@ -889,7 +863,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">se<span class="ku">KU</span>rity</div>
-  <div style="font-size:10px;letter-spacing:2px;color:var(--text-dim);">KOREA UNIVERSITY SECURITY CLUB</div>
+  <div style="font-size:10px;letter-spacing:2px;color:var(--text-dim);">건국대학교 글로컬캠퍼스 컴퓨터공학과</div>
   <div class="footer-right">
     <div>// HACK THE PLANET</div>
     <div style="color:var(--accent);margin-top:4px;">SYSTEM ONLINE</div>
@@ -897,7 +871,6 @@
 </footer>
 
 <script>
-// ─── LOADER ───
 const barFill = document.getElementById('bar-fill');
 const barPct  = document.getElementById('bar-pct');
 const phase1  = document.getElementById('loader-phase1');
@@ -915,7 +888,6 @@ const interval = setInterval(() => {
 }, 50);
 
 function onLoadComplete() {
-  // fade out bar, show welcome
   setTimeout(() => {
     phase1.style.transition = 'opacity 0.4s';
     phase1.style.opacity = '0';
@@ -935,7 +907,6 @@ function typeWelcome() {
     i++;
     if (i >= msg.length) {
       clearInterval(t);
-      // 2 second pause then hide loader
       setTimeout(() => {
         loader.style.transition = 'opacity 0.6s';
         loader.style.opacity = '0';
@@ -946,7 +917,6 @@ function typeWelcome() {
   }, 120);
 }
 
-// ─── SCROLL REVEAL ───
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) e.target.classList.add('shown');
@@ -955,13 +925,11 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ─── CMD BLINK ───
 setInterval(() => {
   const el = document.getElementById('cmd-blink');
   if (el) el.style.opacity = el.style.opacity === '0' ? '1' : '0';
 }, 600);
 
-// ─── SMOOTH SCROLL ───
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
