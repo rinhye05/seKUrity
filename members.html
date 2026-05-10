@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seKUrity — Members</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #2ade02;
+    --accent-dim: rgba(42,222,2,0.15);
+    --accent-glow: rgba(42,222,2,0.6);
+    --bg: #000;
+    --bg2: #050a03;
+    --border: rgba(42,222,2,0.35);
+    --text: #c8f5c0;
+    --text-dim: rgba(200,245,192,0.5);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:9999;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+    );
+    pointer-events:none;
+  }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    border-bottom:1px solid var(--border);
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(8px);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 clamp(16px, 4vw, 48px);
+    height:56px;
+  }
+  .nav-logo {
+    font-family:'Orbitron',sans-serif;
+    font-size:16px; font-weight:700; letter-spacing:4px;
+    color:var(--text); text-decoration:none;
+  }
+  .nav-logo .ku { color:var(--accent); text-shadow:0 0 10px var(--accent-glow); }
+  .nav-links { display:flex; gap:32px; list-style:none; align-items:center; }
+  .nav-links a {
+    font-size:11px; letter-spacing:3px; color:var(--text-dim);
+    text-decoration:none; text-transform:uppercase;
+    position:relative; padding-bottom:4px; transition:color .2s;
+  }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:0; left:0;
+    height:1px; width:0; background:var(--accent); transition:width .3s;
+  }
+  .nav-links a:hover { color:var(--accent); }
+  .nav-links a:hover::after { width:100%; }
+  .nav-links a.active { color:var(--accent); }
+  .nav-links a.active::after { width:100%; }
+  .status-dot {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 6px var(--accent-glow);
+    animation: pulse 2s ease-in-out infinite;
+    display:inline-block; margin-right:8px;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
+
+  /* MAIN */
+  main { padding-top:56px; }
+
+  /* HERO */
+  .page-hero {
+    padding: clamp(60px,10vw,100px) clamp(16px,8vw,120px) clamp(40px,6vw,60px);
+    background:
+      radial-gradient(ellipse 50% 60% at 30% 50%, rgba(42,222,2,0.05) 0%, transparent 70%),
+      var(--bg2);
+    border-bottom:1px solid var(--border);
+    position:relative;
+    overflow:hidden;
+  }
+  .page-hero-grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(42,222,2,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(42,222,2,0.04) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+  .page-hero-inner { position:relative; z-index:1; }
+  .page-eyebrow {
+    font-size:11px; letter-spacing:5px; color:var(--text-dim);
+    margin-bottom:16px; display:flex; align-items:center; gap:8px;
+  }
+  .page-eyebrow::before { content:'> '; color:var(--accent); }
+  .page-title {
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(36px,6vw,72px);
+    font-weight:900; line-height:.95;
+    margin-bottom:16px;
+  }
+  .page-title span { color:var(--accent); text-shadow:0 0 30px var(--accent-glow); }
+  .page-subtitle {
+    font-size:12px; color:var(--text-dim); letter-spacing:3px;
+  }
+
+  /* SECTION */
+  .members-section {
+    padding: clamp(48px,8vw,80px) clamp(16px,8vw,120px);
+  }
+
+  .role-label {
+    font-size:10px; letter-spacing:5px; color:var(--accent);
+    text-transform:uppercase; margin-bottom:24px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .role-label::before {
+    content:''; display:inline-block;
+    width:24px; height:1px; background:var(--accent);
+  }
+
+  /* PRESIDENT CARD - 크게 */
+  .president-card {
+    border:1px solid var(--accent);
+    background: rgba(42,222,2,0.05);
+    padding:36px 40px;
+    position:relative;
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    margin-bottom:48px;
+    max-width:600px;
+  }
+  .president-card::before {
+    content:''; position:absolute; top:0; left:0; right:0;
+    height:1px; background:var(--accent);
+  }
+
+  /* GRID */
+  .members-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap:2px;
+    margin-bottom:64px;
+  }
+
+  /* MEMBER CARD */
+  .member-card {
+    padding:28px 24px;
+    border:1px solid transparent;
+    background:rgba(0,0,0,0.5);
+    transition: background .3s, border-color .3s;
+    position:relative;
+    overflow:hidden;
+  }
+  .member-card::before {
+    content:''; position:absolute; bottom:0; left:0;
+    height:2px; width:0; background:var(--accent);
+    transition:width .4s;
+  }
+  .member-card:hover { background:var(--accent-dim); border-color:var(--border); }
+  .member-card:hover::before { width:100%; }
+
+  /* CARD CONTENT */
+  .card-role {
+    font-size:9px; letter-spacing:4px; text-transform:uppercase;
+    margin-bottom:12px; display:inline-block;
+    padding:3px 10px; border:1px solid;
+  }
+  .role-president { color:var(--accent); border-color:var(--accent); }
+  .role-vp { color:#00cfff; border-color:#00cfff; }
+  .role-member { color:var(--text-dim); border-color:var(--border); }
+
+  .card-name {
+    font-family:'Orbitron',sans-serif;
+    font-size:20px; font-weight:700;
+    margin-bottom:16px; color:var(--text);
+    letter-spacing:1px;
+  }
+  .president-card .card-name { font-size:26px; }
+
+  .card-fields {
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin-bottom:16px;
+  }
+  .field-tag {
+    font-size:9px; letter-spacing:2px;
+    padding:3px 8px;
+    border:1px solid rgba(42,222,2,0.25);
+    color:var(--text-dim);
+    text-transform:uppercase;
+  }
+  .member-card:hover .field-tag { border-color:rgba(42,222,2,0.5); color:var(--text); }
+
+  .card-blog {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:10px; letter-spacing:2px;
+    color:var(--accent); text-decoration:none;
+    margin-top:4px;
+    transition: text-shadow .2s;
+  }
+  .card-blog:hover { text-shadow:0 0 10px var(--accent-glow); }
+  .card-blog::before { content:'↗'; }
+
+  .card-num {
+    position:absolute; top:16px; right:16px;
+    font-family:'VT323',monospace;
+    font-size:32px; color:rgba(42,222,2,0.1);
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    border:none; border-top:1px solid var(--border);
+    margin:0 0 48px 0;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top:1px solid var(--border);
+    padding:24px clamp(16px,8vw,120px);
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:16px;
+    background:var(--bg);
+    font-size:10px; letter-spacing:3px; color:var(--text-dim);
+  }
+  .footer-logo { font-family:'Orbitron',sans-serif; font-size:13px; }
+  .footer-logo .ku { color:var(--accent); }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity .6s, transform .6s; }
+  .reveal.shown { opacity:1; transform:translateY(0); }
+
+  @media(max-width:600px) {
+    .members-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">se<span class="ku">KU</span>rity</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">ABOUT</a></li>
+    <li><a href="index.html#activities">ACTIVITIES</a></li>
+    <li><a href="members.html" class="active">MEMBERS</a></li>
+    <li><a href="index.html#contact">CONTACT</a></li>
+  </ul>
+  <div style="font-size:10px;letter-spacing:2px;color:var(--text-dim);">
+    <span class="status-dot"></span>SYSTEM ONLINE
+  </div>
+</nav>
+
+<main>
+
+  <div class="page-hero">
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-inner">
+      <div class="page-eyebrow">seKUrity CREW</div>
+      <h1 class="page-title">MEMBERS<br><span>// CREW</span></h1>
+      <div class="page-subtitle">TOTAL MEMBERS : 13</div>
+    </div>
+  </div>
+
+  <div class="members-section">
+
+    <!-- PRESIDENT -->
+    <div class="role-label reveal">PRESIDENT</div>
+    <div class="president-card reveal">
+      <div class="card-num">01</div>
+      <div class="card-role role-president">President</div>
+      <div class="card-name">김차나</div>
+      <div class="card-fields">
+        <span class="field-tag">Web Hacking</span>
+        <span class="field-tag">Cryptography</span>
+      </div>
+      <a href="https://fhrxklab.tistory.com/" target="_blank" class="card-blog">BLOG</a>
+    </div>
+
+    <!-- VICE PRESIDENT -->
+    <div class="role-label reveal">VICE PRESIDENT</div>
+    <div class="members-grid" style="max-width:560px; margin-bottom:48px;">
+      <div class="member-card reveal">
+        <div class="card-num">02</div>
+        <div class="card-role role-vp">Vice President</div>
+        <div class="card-name">이대현</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+          <span class="field-tag">Pwnable</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMBERS -->
+    <hr class="section-divider">
+    <div class="role-label reveal">MEMBERS</div>
+    <div class="members-grid">
+
+      <div class="member-card reveal">
+        <div class="card-num">03</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">김형석</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+          <span class="field-tag">Reversing</span>
+          <span class="field-tag">Forensics</span>
+          <span class="field-tag">System</span>
+          <span class="field-tag">Pwnable</span>
+        </div>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">04</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">최헌</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+          <span class="field-tag">Pwnable</span>
+          <span class="field-tag">Reversing</span>
+        </div>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">05</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">송혜원</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+        </div>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">06</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">진영훈</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+        </div>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">07</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">최선종</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+        </div>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">08</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">이동희</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+        </div>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">09</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">안준혁</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+        </div>
+        <a href="https://tls456.tistory.com/" target="_blank" class="card-blog">BLOG</a>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">10</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">조혜린</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+          <span class="field-tag">Forensics</span>
+        </div>
+        <a href="https://rinhye05.tistory.com/" target="_blank" class="card-blog">BLOG</a>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">11</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">유수민</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+          <span class="field-tag">Hardware Hacking</span>
+        </div>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">12</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">이하영</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+          <span class="field-tag">Forensics</span>
+          <span class="field-tag">Reversing</span>
+          <span class="field-tag">Pwnable</span>
+        </div>
+        <a href="https://chzong-hot0.tistory.com/" target="_blank" class="card-blog">BLOG</a>
+      </div>
+
+      <div class="member-card reveal">
+        <div class="card-num">13</div>
+        <div class="card-role role-member">Member</div>
+        <div class="card-name">홍설원</div>
+        <div class="card-fields">
+          <span class="field-tag">Web Hacking</span>
+          <span class="field-tag">Reversing</span>
+          <span class="field-tag">Pwnable</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">se<span class="ku">KU</span>rity</div>
+  <div>건국대학교 글로컬캠퍼스 컴퓨터공학과</div>
+  <div style="color:var(--accent);">SYSTEM ONLINE</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('shown'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
