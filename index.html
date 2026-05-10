@@ -15,7 +15,7 @@
     --bg2: #050a03;
     --border: rgba(42,222,2,0.35);
     --text: #c8f5c0;
-    --text-dim: rgba(200,245,192,0.5);
+    --text-dim: rgba(200,245,192,0.75);
     --danger: #ff3030;
   }
 
@@ -26,7 +26,7 @@
     color: var(--text);
     font-family: 'Share Tech Mono', monospace;
     overflow-x: hidden;
-    cursor: crosshair;
+    cursor: default;
   }
 
   body::before {
@@ -285,7 +285,7 @@
   }
   .about-title span { color:var(--accent); }
 
-  .about-text { font-size:13px; line-height:1.9; color:var(--text-dim); margin-bottom:16px; }
+  .about-text { font-size:14px; line-height:2.1; color:var(--text-dim); margin-bottom:16px; }
 
   .about-card {
     border:1px solid var(--border); background: var(--accent-dim);
@@ -328,7 +328,7 @@
   .act-card:hover .act-num { color:rgba(42,222,2,0.4); }
   .act-icon { font-size:28px; margin-bottom:16px; filter: drop-shadow(0 0 6px var(--accent-glow)); }
   .act-name { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; margin-bottom:12px; color:var(--text); }
-  .act-desc { font-size:12px; line-height:1.7; color:var(--text-dim); }
+  .act-desc { font-size:13px; line-height:1.9; color:var(--text-dim); }
 
   /* MEMBERS TEASER */
   #members-teaser { border-top:1px solid var(--border); text-align:center; background: var(--bg); }
@@ -368,7 +368,7 @@
   .contact-icon { font-size:20px; margin-top:2px; }
   .contact-label { font-size:9px; letter-spacing:4px; color:var(--accent); margin-bottom:4px; }
   .contact-val { font-size:14px; color:var(--text); }
-  .contact-desc { font-size:13px; color:var(--text-dim); line-height:1.8; margin-bottom:24px; }
+  .contact-desc { font-size:14px; color:var(--text); line-height:1.9; margin-bottom:24px; }
 
   .recruit-box {
     border:1px solid var(--border); background:rgba(42,222,2,0.03);
@@ -384,7 +384,7 @@
     display:inline-block; font-size:11px; letter-spacing:3px;
     padding:4px 12px; border:1px solid var(--danger); color:var(--danger); margin-bottom:16px;
   }
-  .recruit-text { font-size:12px; color:var(--text-dim); line-height:1.7; }
+  .recruit-text { font-size:13px; color:var(--text); line-height:1.9; }
 
   footer {
     border-top:1px solid var(--border);
@@ -408,13 +408,15 @@
     font-family:'Orbitron',sans-serif; font-size:11px;
     color:var(--text-dim); min-width:40px; padding-top:1px;
   }
-  .ach-text { color:var(--text-dim); flex:1; }
+  .ach-text { color:var(--text); flex:1; }
 
   @media(max-width:768px) {
     #achievements > div[style*="grid-template-columns"] {
       grid-template-columns:1fr !important;
     }
   }
+  *, *:hover { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='2' fill='%232ade02'/%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%232ade02' stroke-width='1' opacity='0.5'/%3E%3C/svg%3E") 10 10, default; }
+  a, button { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='3' fill='%232ade02'/%3E%3Ccircle cx='10' cy='10' r='7' fill='none' stroke='%232ade02' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer; }
 </style>
 </head>
 <body>
@@ -696,6 +698,12 @@ const welcomeTxt = document.getElementById('welcome-text');
 const loader  = document.getElementById('loader');
 const mainEl  = document.getElementById('main');
 
+// fragment 있으면 로딩 스킵
+if (window.location.hash) {
+  loader.style.display = 'none';
+  mainEl.classList.add('visible');
+} else {
+
 let pct = 0;
 const interval = setInterval(() => {
   pct += Math.random() * 8 + 4;
@@ -750,6 +758,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (t) t.scrollIntoView({ behavior:'smooth' });
   });
 });
+}
 </script>
 </body>
 </html>
