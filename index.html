@@ -398,6 +398,23 @@
 
   .reveal { opacity:0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
   .reveal.shown { opacity:1; transform:translateY(0); }
+  .ach-row {
+    display:flex; gap:16px; align-items:flex-start;
+    padding:10px 0; border-bottom:1px solid rgba(42,222,2,0.07);
+    font-size:12px; line-height:1.6;
+  }
+  .ach-row:last-child { border-bottom:none; }
+  .ach-year {
+    font-family:'Orbitron',sans-serif; font-size:11px;
+    color:var(--text-dim); min-width:40px; padding-top:1px;
+  }
+  .ach-text { color:var(--text-dim); flex:1; }
+
+  @media(max-width:768px) {
+    #achievements > div[style*="grid-template-columns"] {
+      grid-template-columns:1fr !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -426,6 +443,7 @@
     <li><a href="#about">ABOUT</a></li>
     <li><a href="#activities">ACTIVITIES</a></li>
     <li><a href="members.html">MEMBERS</a></li>
+    <li><a href="#achievements">ACHIEVEMENTS</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
   <div class="nav-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
@@ -545,6 +563,61 @@
         <div class="act-name">HARDWARE HACKING</div>
         <div class="act-desc">임베디드 시스템과 하드웨어 취약점을 개인 스터디로 연구합니다. UART, JTAG, SPI 등 물리적 인터페이스 분석을 탐구합니다.</div>
       </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements" style="background:var(--bg);border-top:1px solid var(--border);">
+    <div class="sec-label reveal">TRACK RECORD</div>
+    <h2 class="activities-title reveal">실적<br><span>// ACHIEVEMENTS</span></h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:1000px;" class="reveal">
+
+      <!-- 수상 경력 -->
+      <div>
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:3px;color:var(--accent);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+          // 수상 경력
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div class="ach-row"><span class="ach-year">2025</span><span class="ach-text">Pwn2Own Automotive 2025 (글로벌 취약점 분석 대회) 수상</span></div>
+          <div class="ach-row"><span class="ach-year">2024</span><span class="ach-text">충청권 CTF : 장려상</span></div>
+          <div class="ach-row"><span class="ach-year">2024</span><span class="ach-text">우리콘 : 최우수상</span></div>
+          <div class="ach-row"><span class="ach-year">2024</span><span class="ach-text">fiesta : 장려상</span></div>
+          <div class="ach-row"><span class="ach-year">2024</span><span class="ach-text">금융보안아카데미 2024 (사이버위협 분석, 대응분야) : 최우수상</span></div>
+          <div class="ach-row"><span class="ach-year">2024</span><span class="ach-text">제4회 우리콘 : 우수상</span></div>
+          <div class="ach-row"><span class="ach-year">2024</span><span class="ach-text">KSC 학부생/주니어논문 경진대회 : 학부생부문 장려상</span></div>
+          <div class="ach-row"><span class="ach-year">2023</span><span class="ach-text">제 3회 우리콘 : 우수상</span></div>
+          <div class="ach-row"><span class="ach-year">2023</span><span class="ach-text">제 3회 우리은행 금융보안원 모의해킹 대회 : 대상, 최우수상, 우수상</span></div>
+          <div class="ach-row"><span class="ach-year">2022</span><span class="ach-text">제 4회 TS 보안 허점을 찾아라 : 우수상(일반부), 우수상(학생부)</span></div>
+          <div class="ach-row"><span class="ach-year">2022</span><span class="ach-text">제 2회 우리은행 금융보안원 모의해킹 대회 : 대상</span></div>
+          <div class="ach-row"><span class="ach-year">2022</span><span class="ach-text">한국중부발전을 뚫어봐! 경진대회 : 최우수상, 장려상</span></div>
+          <div class="ach-row"><span class="ach-year">2021</span><span class="ach-text">제 3회 TS 보안 허점을 찾아라 : 최우수상, 우수상</span></div>
+        </div>
+      </div>
+
+      <!-- 대외 활동 -->
+      <div>
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:3px;color:var(--accent);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+          // 대외 활동
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div class="ach-row"><span class="ach-year">2024</span><span class="ach-text">Best of the Best (BoB) 13기 : 취약점 분석 2명, 디지털 포렌식 1명</span></div>
+          <div class="ach-row"><span class="ach-year">2023</span><span class="ach-text">Best of the Best (BoB) 12기 : 취약점 분석 2명, 보안 컨설팅 3명</span></div>
+          <div class="ach-row"><span class="ach-year">2023</span><span class="ach-text">WhiteHat School 1기 : 4명</span></div>
+          <div class="ach-row"><span class="ach-year">2023</span><span class="ach-text">SK 쉴더스 루키즈 14기 : 2명</span></div>
+          <div class="ach-row"><span class="ach-year">2022</span><span class="ach-text">Best of the Best (BoB) 11기 : 취약점 분석 1명</span></div>
+          <div class="ach-row"><span class="ach-year">2020</span><span class="ach-text">Best of the Best (BoB) 9기 : 보안컨설팅 3명, 보안 제품 개발 1명</span></div>
+          <div class="ach-row" style="border-top:1px solid var(--border);margin-top:16px;padding-top:16px;">
+            <span class="ach-year" style="color:var(--accent);">진출</span>
+            <span class="ach-text">SK 쉴더스, 롯데정보통신, V3, 딜로이트, 국방부, ENKI 등 보안업계 회사 진출</span>
+          </div>
+          <div class="ach-row">
+            <span class="ach-year" style="color:var(--accent);">군</span>
+            <span class="ach-text">대한민국 육군/공군 — 사이버 정보보병</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
