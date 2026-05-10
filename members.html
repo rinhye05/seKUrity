@@ -435,7 +435,9 @@ function initPage() {
 // fragment 있으면 인트로 스킵
 if (window.location.hash) {
   loader.style.display = 'none';
+  mainEl.style.opacity = '1';
   mainEl.classList.add('visible');
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('shown'));
   initPage();
 } else {
   let pct = 0;
