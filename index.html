@@ -66,21 +66,15 @@
     background-size: 40px 40px;
   }
 
-  .loader-corners {
-    position:absolute;
-    width:100px; height:100px;
-  }
+  .loader-corners { position:absolute; width:100px; height:100px; }
   .loader-corners::before, .loader-corners::after {
     content:''; position:absolute;
     width:20px; height:20px;
-    border-color: var(--accent);
-    border-style: solid;
+    border-color: var(--accent); border-style: solid;
   }
-
   .lc-tl { top:20px; left:20px; }
   .lc-tl::before { top:0; left:0; border-width:2px 0 0 2px; }
   .lc-tl::after  { bottom:0; right:0; border-width:0 2px 2px 0; }
-
   .lc-br { bottom:20px; right:20px; }
   .lc-br::before { top:0; left:0; border-width:2px 0 0 2px; }
   .lc-br::after  { bottom:0; right:0; border-width:0 2px 2px 0; }
@@ -88,44 +82,30 @@
   #loader-title {
     font-family: 'Orbitron', sans-serif;
     font-size: clamp(28px, 5vw, 52px);
-    font-weight: 900;
-    letter-spacing: 8px;
+    font-weight: 900; letter-spacing: 8px;
     color: var(--text-dim);
     position:relative; z-index:1;
   }
   #loader-title .ku { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
 
   .loader-sub {
-    font-size:13px;
-    letter-spacing:4px;
-    color: var(--text-dim);
-    position:relative; z-index:1;
+    font-size:13px; letter-spacing:4px;
+    color: var(--text-dim); position:relative; z-index:1;
   }
 
-  .loader-bar-wrap {
-    width: min(400px, 70vw);
-    position:relative; z-index:1;
-  }
+  .loader-bar-wrap { width: min(400px, 70vw); position:relative; z-index:1; }
   .loader-bar-track {
-    border:1px solid var(--border);
-    height:6px;
-    background: rgba(42,222,2,0.05);
-    position:relative;
-    overflow:hidden;
+    border:1px solid var(--border); height:6px;
+    background: rgba(42,222,2,0.05); overflow:hidden;
   }
   .loader-bar-fill {
-    height:100%;
-    background: var(--accent);
+    height:100%; background: var(--accent);
     box-shadow: 0 0 12px var(--accent-glow);
-    width:0%;
-    transition: width 0.05s linear;
+    width:0%; transition: width 0.05s linear;
   }
   .loader-pct {
-    font-size:11px;
-    color: var(--accent);
-    text-align:right;
-    margin-top:6px;
-    letter-spacing:2px;
+    font-size:11px; color: var(--accent);
+    text-align:right; margin-top:6px; letter-spacing:2px;
   }
 
   #loader-welcome {
@@ -133,17 +113,13 @@
     font-size: clamp(22px, 4vw, 42px);
     color: var(--accent);
     text-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(42,222,2,0.3);
-    letter-spacing:6px;
-    min-height:60px;
-    display:flex; align-items:center;
-    position:relative; z-index:1;
+    letter-spacing:6px; min-height:60px;
+    display:flex; align-items:center; position:relative; z-index:1;
   }
 
   .blink-cursor {
-    display:inline-block;
-    width:3px; height:1em;
-    background: var(--accent);
-    margin-left:4px;
+    display:inline-block; width:3px; height:1em;
+    background: var(--accent); margin-left:4px;
     animation: blink 0.7s step-end infinite;
   }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -154,82 +130,54 @@
     background: rgba(0,0,0,0.92);
     backdrop-filter: blur(8px);
     display:flex; align-items:center; justify-content:space-between;
-    padding:0 clamp(16px, 4vw, 48px);
-    height:56px;
+    padding:0 clamp(16px, 4vw, 48px); height:56px;
   }
 
   .nav-logo {
     font-family:'Orbitron',sans-serif;
-    font-size:16px; font-weight:700;
-    letter-spacing:4px;
-    color: var(--text);
+    font-size:16px; font-weight:700; letter-spacing:4px; color: var(--text);
   }
   .nav-logo .ku { color: var(--accent); text-shadow:0 0 10px var(--accent-glow); }
 
-  .nav-links {
-    display:flex; gap:32px; list-style:none;
-    align-items:center;
-  }
+  .nav-links { display:flex; gap:32px; list-style:none; align-items:center; }
   .nav-links a {
-    font-size:11px; letter-spacing:3px;
-    color: var(--text-dim);
+    font-size:11px; letter-spacing:3px; color: var(--text-dim);
     text-decoration:none; text-transform:uppercase;
-    position:relative; padding-bottom:4px;
-    transition:color .2s;
+    position:relative; padding-bottom:4px; transition:color .2s;
   }
   .nav-links a::after {
-    content:'';
-    position:absolute; bottom:0; left:0;
-    height:1px; width:0;
-    background: var(--accent);
-    transition: width .3s;
+    content:''; position:absolute; bottom:0; left:0;
+    height:1px; width:0; background: var(--accent); transition: width .3s;
   }
   .nav-links a:hover { color:var(--accent); }
   .nav-links a:hover::after { width:100%; }
 
-  .nav-status {
-    display:flex; align-items:center; gap:8px;
-    font-size:10px; letter-spacing:2px; color:var(--text-dim);
-  }
+  .nav-status { display:flex; align-items:center; gap:8px; font-size:10px; letter-spacing:2px; color:var(--text-dim); }
   .status-dot {
     width:6px; height:6px; border-radius:50%;
-    background:var(--accent);
-    box-shadow:0 0 6px var(--accent-glow);
+    background:var(--accent); box-shadow:0 0 6px var(--accent-glow);
     animation: pulse 2s ease-in-out infinite;
   }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
 
-  main {
-    padding-top:56px;
-    opacity:0;
-    transition: opacity 0.5s;
-  }
+  main { padding-top:56px; opacity:0; transition: opacity 0.5s; }
   main.visible { opacity:1; }
 
-  section {
-    padding: clamp(60px, 10vw, 120px) clamp(16px, 8vw, 120px);
-    position:relative;
-  }
+  section { padding: clamp(60px, 10vw, 120px) clamp(16px, 8vw, 120px); position:relative; }
 
   .sec-label {
     font-size:10px; letter-spacing:5px; color:var(--accent);
     text-transform:uppercase; margin-bottom:12px;
     display:flex; align-items:center; gap:12px;
   }
-  .sec-label::before {
-    content:''; display:inline-block;
-    width:24px; height:1px; background:var(--accent);
-  }
+  .sec-label::before { content:''; display:inline-block; width:24px; height:1px; background:var(--accent); }
 
   #hero {
-    min-height: 100svh;
-    display:flex; align-items:center;
-    padding-top:120px;
+    min-height: 100svh; display:flex; align-items:center; padding-top:120px;
     background:
       radial-gradient(ellipse 60% 50% at 70% 50%, rgba(42,222,2,0.06) 0%, transparent 70%),
       var(--bg2);
-    overflow:hidden;
-    position:relative;
+    overflow:hidden; position:relative;
   }
 
   .hero-grid {
@@ -241,362 +189,200 @@
     mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
   }
 
-  .hero-inner {
-    position:relative; z-index:1;
-    max-width:900px;
-  }
+  .hero-inner { position:relative; z-index:1; max-width:900px; }
 
   .hero-eyebrow {
     font-size:11px; letter-spacing:5px; color:var(--text-dim);
-    margin-bottom:24px;
-    display:flex; align-items:center; gap:8px;
+    margin-bottom:24px; display:flex; align-items:center; gap:8px;
   }
-  .hero-eyebrow::before {
-    content:'> '; color:var(--accent);
-  }
+  .hero-eyebrow::before { content:'> '; color:var(--accent); }
 
   .hero-title {
     font-family:'Orbitron', sans-serif;
     font-size: clamp(48px, 9vw, 100px);
-    font-weight:900;
-    line-height:.95;
-    letter-spacing:-2px;
-    margin-bottom:32px;
-    position:relative;
+    font-weight:900; line-height:.95; letter-spacing:-2px;
+    margin-bottom:32px; position:relative;
   }
-  .hero-title .ku {
-    color:var(--accent);
-    text-shadow:0 0 40px var(--accent-glow), 0 0 80px rgba(42,222,2,0.2);
-  }
-  .hero-title .glitch {
-    position:relative;
-    display:inline-block;
-  }
-  .hero-title .glitch::before,
-  .hero-title .glitch::after {
-    content: attr(data-text);
-    position:absolute; inset:0;
-    color:var(--text);
+  .hero-title .ku { color:var(--accent); text-shadow:0 0 40px var(--accent-glow), 0 0 80px rgba(42,222,2,0.2); }
+  .hero-title .glitch { position:relative; display:inline-block; }
+  .hero-title .glitch::before, .hero-title .glitch::after {
+    content: attr(data-text); position:absolute; inset:0; color:var(--text);
   }
   .hero-title .glitch::before {
     animation: glitch1 4s infinite;
     clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
-    transform: translate(-3px, 0);
-    color: #0ff;
-    opacity:.4;
+    transform: translate(-3px, 0); color: #0ff; opacity:.4;
   }
   .hero-title .glitch::after {
     animation: glitch2 4s infinite;
     clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
-    transform: translate(3px, 0);
-    color: #f0f;
-    opacity:.4;
+    transform: translate(3px, 0); color: #f0f; opacity:.4;
   }
-  @keyframes glitch1 {
-    0%,92%,100%{transform:translate(-3px,0)} 93%{transform:translate(3px,-2px)} 96%{transform:translate(-3px,2px)}
-  }
-  @keyframes glitch2 {
-    0%,92%,100%{transform:translate(3px,0)} 93%{transform:translate(-3px,2px)} 96%{transform:translate(3px,-2px)}
-  }
+  @keyframes glitch1 { 0%,92%,100%{transform:translate(-3px,0)} 93%{transform:translate(3px,-2px)} 96%{transform:translate(-3px,2px)} }
+  @keyframes glitch2 { 0%,92%,100%{transform:translate(3px,0)} 93%{transform:translate(-3px,2px)} 96%{transform:translate(3px,-2px)} }
 
   .hero-desc {
-    max-width:520px;
-    font-size:13px; line-height:1.8;
-    color:var(--text-dim);
-    margin-bottom:48px;
-    border-left:2px solid var(--border);
-    padding-left:20px;
+    max-width:520px; font-size:13px; line-height:1.8;
+    color:var(--text-dim); margin-bottom:48px;
+    border-left:2px solid var(--border); padding-left:20px;
   }
 
-  .hero-btns {
-    display:flex; gap:16px; flex-wrap:wrap;
-  }
+  .hero-btns { display:flex; gap:16px; flex-wrap:wrap; }
 
   .btn-primary {
     display:inline-flex; align-items:center; gap:10px;
-    padding:14px 32px;
-    border:1px solid var(--accent);
-    background: rgba(42,222,2,0.08);
-    color:var(--accent);
-    font-family:'Share Tech Mono',monospace;
-    font-size:12px; letter-spacing:3px;
-    text-transform:uppercase;
-    text-decoration:none;
-    cursor:pointer;
+    padding:14px 32px; border:1px solid var(--accent);
+    background: rgba(42,222,2,0.08); color:var(--accent);
+    font-family:'Share Tech Mono',monospace; font-size:12px; letter-spacing:3px;
+    text-transform:uppercase; text-decoration:none; cursor:pointer;
     transition: background .2s, box-shadow .2s;
     clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   }
-  .btn-primary:hover {
-    background:rgba(42,222,2,0.18);
-    box-shadow:0 0 24px rgba(42,222,2,0.3);
-  }
+  .btn-primary:hover { background:rgba(42,222,2,0.18); box-shadow:0 0 24px rgba(42,222,2,0.3); }
 
   .btn-ghost {
     display:inline-flex; align-items:center; gap:10px;
-    padding:14px 32px;
-    border:1px solid var(--border);
-    background: transparent;
-    color:var(--text-dim);
-    font-family:'Share Tech Mono',monospace;
-    font-size:12px; letter-spacing:3px;
-    text-transform:uppercase;
-    text-decoration:none;
-    cursor:pointer;
+    padding:14px 32px; border:1px solid var(--border);
+    background: transparent; color:var(--text-dim);
+    font-family:'Share Tech Mono',monospace; font-size:12px; letter-spacing:3px;
+    text-transform:uppercase; text-decoration:none; cursor:pointer;
     transition: color .2s, border-color .2s;
   }
   .btn-ghost:hover { color:var(--accent); border-color:var(--accent); }
 
   .hero-hud {
     position:absolute; right:clamp(16px,6vw,80px); top:50%;
-    transform:translateY(-50%);
-    border:1px solid var(--border);
-    background:rgba(0,0,0,0.7);
-    backdrop-filter:blur(4px);
-    padding:24px;
-    min-width:200px;
-    display:none;
+    transform:translateY(-50%); border:1px solid var(--border);
+    background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);
+    padding:24px; min-width:200px; display:none;
   }
-  @media(min-width:900px){.hero-hud{display:block;}}
+  @media(min-width:900px){ .hero-hud{ display:block; } }
 
-  .hud-row {
-    display:flex; justify-content:space-between; align-items:center;
-    margin-bottom:14px; gap:24px;
-  }
-  .hud-row:last-child{margin-bottom:0;}
+  .hud-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:24px; }
+  .hud-row:last-child { margin-bottom:0; }
   .hud-label { font-size:9px; letter-spacing:3px; color:var(--text-dim); text-transform:uppercase; }
   .hud-value { font-family:'Orbitron',sans-serif; font-size:14px; color:var(--accent); }
-  .hud-bar { height:2px; background:rgba(42,222,2,0.15); margin-top:4px; position:relative; }
+  .hud-bar { height:2px; background:rgba(42,222,2,0.15); margin-top:4px; }
   .hud-bar-fill { height:100%; background:var(--accent); box-shadow:0 0 6px var(--accent-glow); }
-
   .hud-header {
     font-size:8px; letter-spacing:4px; color:var(--accent);
-    border-bottom:1px solid var(--border);
-    padding-bottom:12px; margin-bottom:16px;
+    border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;
     display:flex; justify-content:space-between;
   }
 
-  #about {
-    background: var(--bg);
-    border-top:1px solid var(--border);
-  }
+  /* ABOUT */
+  #about { background: var(--bg); border-top:1px solid var(--border); }
 
   .about-grid {
-    display:grid;
-    grid-template-columns:1fr;
+    display:grid; grid-template-columns:1fr;
     gap:48px; align-items:start;
-    max-width:600px;
+    max-width:600px; margin:0 auto;
   }
-  @media(max-width:768px){.about-grid{grid-template-columns:1fr;}}
 
   .about-title {
-    font-family:'Orbitron',sans-serif;
-    font-size:clamp(28px,4vw,44px);
-    font-weight:700;
-    line-height:1.1;
-    margin-bottom:24px;
+    font-family:'Orbitron',sans-serif; font-size:clamp(28px,4vw,44px);
+    font-weight:700; line-height:1.1; margin-bottom:24px;
   }
   .about-title span { color:var(--accent); }
 
-  .about-text {
-    font-size:13px; line-height:1.9;
-    color:var(--text-dim);
-    margin-bottom:16px;
-  }
+  .about-text { font-size:13px; line-height:1.9; color:var(--text-dim); margin-bottom:16px; }
 
   .about-card {
-    border:1px solid var(--border);
-    background: var(--accent-dim);
-    padding:28px;
-    position:relative;
+    border:1px solid var(--border); background: var(--accent-dim);
+    padding:28px; position:relative;
     clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
   }
-  .about-card::before {
-    content:'';
-    position:absolute; top:0; left:0; right:0;
-    height:1px; background:var(--accent);
-  }
-  .about-card-title {
-    font-size:10px; letter-spacing:4px; color:var(--accent);
-    text-transform:uppercase; margin-bottom:20px;
-  }
+  .about-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--accent); }
+  .about-card-title { font-size:10px; letter-spacing:4px; color:var(--accent); text-transform:uppercase; margin-bottom:20px; }
   .about-stat {
     display:flex; justify-content:space-between;
-    padding:10px 0;
-    border-bottom:1px solid rgba(42,222,2,0.1);
-    font-size:12px;
+    padding:10px 0; border-bottom:1px solid rgba(42,222,2,0.1); font-size:12px;
   }
-  .about-stat:last-child{border-bottom:none;}
+  .about-stat:last-child { border-bottom:none; }
   .about-stat-val { color:var(--accent); font-family:'Orbitron',sans-serif; font-size:13px; }
 
-  #activities {
-    background: var(--bg2);
-    border-top:1px solid var(--border);
-  }
+  /* ACTIVITIES */
+  #activities { background: var(--bg2); border-top:1px solid var(--border); }
 
-  .activities-title {
-    font-family:'Orbitron',sans-serif;
-    font-size:clamp(28px,4vw,44px);
-    font-weight:700; margin-bottom:48px;
-  }
+  .activities-title { font-family:'Orbitron',sans-serif; font-size:clamp(28px,4vw,44px); font-weight:700; margin-bottom:48px; }
   .activities-title span { color:var(--accent); }
 
   .act-grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap:2px;
-    border:1px solid var(--border);
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap:2px; border:1px solid var(--border);
   }
 
   .act-card {
-    padding:32px 28px;
-    border:1px solid transparent;
-    background:rgba(0,0,0,0.5);
-    transition: background .3s, border-color .3s;
-    position:relative;
-    overflow:hidden;
+    padding:32px 28px; border:1px solid transparent;
+    background:rgba(0,0,0,0.5); transition: background .3s, border-color .3s;
+    position:relative; overflow:hidden;
   }
   .act-card::before {
-    content:'';
-    position:absolute; bottom:0; left:0;
-    height:2px; width:0;
-    background:var(--accent);
-    transition:width .4s;
+    content:''; position:absolute; bottom:0; left:0;
+    height:2px; width:0; background:var(--accent); transition:width .4s;
   }
   .act-card:hover { background:var(--accent-dim); border-color:var(--border); }
   .act-card:hover::before { width:100%; }
 
-  .act-num {
-    font-family:'VT323',monospace;
-    font-size:48px; color:var(--border);
-    line-height:1; margin-bottom:16px;
-    transition:color .3s;
-  }
+  .act-num { font-family:'VT323',monospace; font-size:48px; color:var(--border); line-height:1; margin-bottom:16px; transition:color .3s; }
   .act-card:hover .act-num { color:rgba(42,222,2,0.4); }
+  .act-icon { font-size:28px; margin-bottom:16px; filter: drop-shadow(0 0 6px var(--accent-glow)); }
+  .act-name { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; margin-bottom:12px; color:var(--text); }
+  .act-desc { font-size:12px; line-height:1.7; color:var(--text-dim); }
 
-  .act-icon {
-    font-size:28px; margin-bottom:16px;
-    filter: drop-shadow(0 0 6px var(--accent-glow));
-  }
-
-  .act-name {
-    font-family:'Orbitron',sans-serif;
-    font-size:14px; font-weight:700;
-    letter-spacing:2px; margin-bottom:12px;
-    color:var(--text);
-  }
-
-  .act-desc {
-    font-size:12px; line-height:1.7;
-    color:var(--text-dim);
-  }
-
-  #members-teaser {
-    border-top:1px solid var(--border);
-    text-align:center;
-    background: var(--bg);
-  }
-
-  .members-inner {
-    max-width:600px; margin:0 auto;
-  }
-
-  .members-title {
-    font-family:'Orbitron',sans-serif;
-    font-size:clamp(24px,4vw,40px);
-    font-weight:700; margin-bottom:16px;
-  }
-  .members-title span {color:var(--accent);}
-
-  .members-sub {
-    font-size:13px; color:var(--text-dim);
-    line-height:1.7; margin-bottom:36px;
-  }
+  /* MEMBERS TEASER */
+  #members-teaser { border-top:1px solid var(--border); text-align:center; background: var(--bg); }
+  .members-inner { max-width:600px; margin:0 auto; }
+  .members-title { font-family:'Orbitron',sans-serif; font-size:clamp(24px,4vw,40px); font-weight:700; margin-bottom:16px; }
+  .members-title span { color:var(--accent); }
+  .members-sub { font-size:13px; color:var(--text-dim); line-height:1.7; margin-bottom:36px; }
 
   .terminal-box {
-    border:1px solid var(--border);
-    background:rgba(42,222,2,0.03);
-    padding:24px;
-    text-align:left;
-    font-size:12px;
-    line-height:2;
-    color:var(--text-dim);
-    position:relative;
+    border:1px solid var(--border); background:rgba(42,222,2,0.03);
+    padding:24px; text-align:left; font-size:12px; line-height:2;
+    color:var(--text-dim); position:relative;
   }
   .terminal-box::before {
-    content:'TERMINAL';
-    position:absolute; top:-8px; left:16px;
-    background:var(--bg);
-    padding:0 8px;
-    font-size:9px; letter-spacing:4px; color:var(--accent);
+    content:'TERMINAL'; position:absolute; top:-8px; left:16px;
+    background:var(--bg); padding:0 8px; font-size:9px; letter-spacing:4px; color:var(--accent);
   }
-  .t-line .prompt {color:var(--accent);}
-  .t-line .cmd {color:var(--text);}
-  .t-line .out {color:var(--text-dim);}
+  .t-line .prompt { color:var(--accent); }
 
-  #contact {
-    border-top:1px solid var(--border);
-    background: var(--bg2);
-  }
+  /* CONTACT */
+  #contact { border-top:1px solid var(--border); background: var(--bg2); }
 
-  .contact-title {
-    font-family:'Orbitron',sans-serif;
-    font-size:clamp(28px,4vw,44px);
-    font-weight:700; margin-bottom:48px;
-  }
-  .contact-title span {color:var(--accent);}
+  .contact-title { font-family:'Orbitron',sans-serif; font-size:clamp(28px,4vw,44px); font-weight:700; margin-bottom:48px; }
+  .contact-title span { color:var(--accent); }
 
   .contact-grid {
-    display:grid;
-    grid-template-columns:1fr;
-    gap:48px;
-    max-width:600px;
+    display:grid; grid-template-columns:1fr;
+    gap:48px; max-width:600px; margin:0 auto;
   }
-  @media(max-width:768px){.contact-grid{grid-template-columns:1fr;}}
 
   .contact-info { display:flex; flex-direction:column; gap:20px; }
-
   .contact-item {
-    display:flex; align-items:flex-start; gap:16px;
-    padding:20px;
-    border:1px solid var(--border);
-    background:rgba(42,222,2,0.03);
-    transition: background .2s;
+    display:flex; align-items:flex-start; gap:16px; padding:20px;
+    border:1px solid var(--border); background:rgba(42,222,2,0.03); transition: background .2s;
   }
   .contact-item:hover { background:var(--accent-dim); }
   .contact-icon { font-size:20px; margin-top:2px; }
   .contact-label { font-size:9px; letter-spacing:4px; color:var(--accent); margin-bottom:4px; }
   .contact-val { font-size:14px; color:var(--text); }
-
-  .contact-desc {
-    font-size:13px; color:var(--text-dim);
-    line-height:1.8; margin-bottom:24px;
-  }
+  .contact-desc { font-size:13px; color:var(--text-dim); line-height:1.8; margin-bottom:24px; }
 
   .recruit-box {
-    border:1px solid var(--border);
-    background:rgba(42,222,2,0.03);
-    padding:28px;
-    position:relative;
+    border:1px solid var(--border); background:rgba(42,222,2,0.03);
+    padding:28px; position:relative;
     clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
   }
   .recruit-box::after {
-    content:'▶ RECRUITMENT';
-    position:absolute; top:-8px; right:32px;
-    background:var(--bg2); padding:0 8px;
-    font-size:9px; letter-spacing:4px; color:var(--text-dim);
+    content:'▶ RECRUITMENT'; position:absolute; top:-8px; right:32px;
+    background:var(--bg2); padding:0 8px; font-size:9px; letter-spacing:4px; color:var(--text-dim);
   }
-  .recruit-title {
-    font-family:'Orbitron',sans-serif;
-    font-size:16px; font-weight:700;
-    color:var(--text-dim); margin-bottom:12px;
-  }
+  .recruit-title { font-family:'Orbitron',sans-serif; font-size:16px; font-weight:700; color:var(--text-dim); margin-bottom:12px; }
   .recruit-status {
-    display:inline-block;
-    font-size:11px; letter-spacing:3px;
-    padding:4px 12px;
-    border:1px solid var(--danger);
-    color:var(--danger);
-    margin-bottom:16px;
+    display:inline-block; font-size:11px; letter-spacing:3px;
+    padding:4px 12px; border:1px solid var(--danger); color:var(--danger); margin-bottom:16px;
   }
   .recruit-text { font-size:12px; color:var(--text-dim); line-height:1.7; }
 
@@ -604,53 +390,36 @@
     border-top:1px solid var(--border);
     padding:24px clamp(16px,8vw,120px);
     display:flex; align-items:center; justify-content:space-between;
-    flex-wrap:wrap; gap:16px;
-    background:var(--bg);
+    flex-wrap:wrap; gap:16px; background:var(--bg);
     font-size:10px; letter-spacing:3px; color:var(--text-dim);
   }
-  .footer-logo {
-    font-family:'Orbitron',sans-serif;
-    font-size:13px;
-  }
-  .footer-logo .ku {color:var(--accent);}
-  .footer-right { text-align:right; }
+  .footer-logo { font-family:'Orbitron',sans-serif; font-size:13px; }
+  .footer-logo .ku { color:var(--accent); }
 
-  .reveal {
-    opacity:0;
-    transform: translateY(24px);
-    transition: opacity .7s ease, transform .7s ease;
-  }
+  .reveal { opacity:0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
   .reveal.shown { opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
 <div id="loader">
   <div class="loader-grid"></div>
   <div class="loader-corners lc-tl"></div>
   <div class="loader-corners lc-br"></div>
-
   <div id="loader-phase1">
-    <div id="loader-title">
-      se<span class="ku">KU</span>rity &nbsp;<span style="color:var(--text-dim);font-size:0.5em;letter-spacing:2px;">LOADING...</span>
-    </div>
+    <div id="loader-title">se<span class="ku">KU</span>rity &nbsp;<span style="color:var(--text-dim);font-size:0.5em;letter-spacing:2px;">LOADING...</span></div>
     <div class="loader-sub" style="text-align:center;margin-top:8px;">INITIALIZING SECURITY PROTOCOLS</div>
     <div class="loader-bar-wrap" style="margin-top:24px;">
-      <div class="loader-bar-track">
-        <div class="loader-bar-fill" id="bar-fill"></div>
-      </div>
+      <div class="loader-bar-track"><div class="loader-bar-fill" id="bar-fill"></div></div>
       <div class="loader-pct" id="bar-pct">0%</div>
     </div>
   </div>
-
   <div id="loader-welcome" style="display:none;">
     <span id="welcome-text"></span>
     <span class="blink-cursor"></span>
   </div>
 </div>
 
-<!-- NAVBAR -->
 <nav>
   <div class="nav-logo">se<span class="ku">KU</span>rity</div>
   <ul class="nav-links">
@@ -659,16 +428,11 @@
     <li><a href="members.html">MEMBERS</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
-  <div class="nav-status">
-    <span class="status-dot"></span>
-    SYSTEM ONLINE
-  </div>
+  <div class="nav-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
 </nav>
 
-<!-- MAIN -->
 <main id="main">
 
-  <!-- HERO -->
   <section id="hero">
     <div class="hero-grid"></div>
     <div class="hero-inner">
@@ -686,40 +450,33 @@
         <a href="#contact" class="btn-ghost">CONTACT</a>
       </div>
     </div>
-
     <div class="hero-hud">
-      <div class="hud-header">
-        <span>sys_status</span>
-        <span style="color:var(--text-dim);">v2.4</span>
-      </div>
-      <div class="hud-row" style="flex-direction:column; align-items:flex-start; gap:6px;">
+      <div class="hud-header"><span>sys_status</span><span style="color:var(--text-dim);">v2.4</span></div>
+      <div class="hud-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
         <div class="hud-label">THREAT LVL</div>
         <div class="hud-value">MONITORED</div>
         <div class="hud-bar"><div class="hud-bar-fill" style="width:62%"></div></div>
       </div>
-      <div class="hud-row" style="flex-direction:column; align-items:flex-start; gap:6px;margin-top:14px;">
+      <div class="hud-row" style="flex-direction:column;align-items:flex-start;gap:6px;margin-top:14px;">
         <div class="hud-label">FIREWALL</div>
         <div class="hud-value">ACTIVE</div>
         <div class="hud-bar"><div class="hud-bar-fill" style="width:88%"></div></div>
       </div>
-      <div class="hud-row" style="flex-direction:column; align-items:flex-start; gap:6px;margin-top:14px;">
+      <div class="hud-row" style="flex-direction:column;align-items:flex-start;gap:6px;margin-top:14px;">
         <div class="hud-label">RECRUIT</div>
         <div class="hud-value" style="color:#ff3030;">CLOSED</div>
       </div>
-      <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border); font-size:9px; color:var(--text-dim); letter-spacing:2px;">
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);font-size:9px;color:var(--text-dim);letter-spacing:2px;">
         ROOT@SEKURITY:~#&nbsp;<span id="cmd-blink" style="color:var(--accent);">_</span>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="sec-label reveal">ABOUT THE CLUB</div>
     <div class="about-grid">
       <div>
-        <h2 class="about-title reveal">
-          우리는 누구인가<br><span>seKUrity</span>
-        </h2>
+        <h2 class="about-title reveal">우리는 누구인가<br><span>seKUrity</span></h2>
         <p class="about-text reveal">
           seKUrity는 건국대학교 글로컬캠퍼스 컴퓨터공학과 학생들로 구성된 정보보안 소모임입니다.
           CTF(Capture the Flag) 대회 참여, 보안 기술 스터디, 웹 해킹, 포렌식, 리버싱 등
@@ -732,35 +489,16 @@
       </div>
       <div class="about-card reveal">
         <div class="about-card-title">// CLUB_INFO.json</div>
-        <div class="about-stat">
-          <span>소속</span>
-          <span class="about-stat-val">건국대 글로컬</span>
-        </div>
-        <div class="about-stat">
-          <span>학과</span>
-          <span class="about-stat-val">컴퓨터공학과</span>
-        </div>
-        <div class="about-stat">
-          <span>분야</span>
-          <span class="about-stat-val">정보보안</span>
-        </div>
-        <div class="about-stat">
-          <span>활동</span>
-          <span class="about-stat-val">CTF / STUDY</span>
-        </div>
-        <div class="about-stat">
-          <span>모집</span>
-          <span class="about-stat-val" style="color:#ff3030;">CLOSED</span>
-        </div>
-        <div class="about-stat">
-          <span>STATUS</span>
-          <span class="about-stat-val">ACTIVE</span>
-        </div>
+        <div class="about-stat"><span>소속</span><span class="about-stat-val">건국대 글로컬</span></div>
+        <div class="about-stat"><span>학과</span><span class="about-stat-val">컴퓨터공학과</span></div>
+        <div class="about-stat"><span>분야</span><span class="about-stat-val">정보보안</span></div>
+        <div class="about-stat"><span>활동</span><span class="about-stat-val">CTF / STUDY</span></div>
+        <div class="about-stat"><span>모집</span><span class="about-stat-val" style="color:#ff3030;">CLOSED</span></div>
+        <div class="about-stat"><span>STATUS</span><span class="about-stat-val">ACTIVE</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ACTIVITIES -->
   <section id="activities">
     <div class="sec-label reveal">ACTIVITIES</div>
     <h2 class="activities-title reveal">무엇을 하나요?<br><span>// WHAT WE DO</span></h2>
@@ -810,22 +548,23 @@
     </div>
   </section>
 
-  <!-- MEMBERS TEASER -->
   <section id="members-teaser">
     <div class="sec-label reveal" style="justify-content:center;">MEMBERS</div>
     <div class="members-inner">
       <h2 class="members-title reveal">부원 소개<br><span>// CREW</span></h2>
       <p class="members-sub reveal">seKUrity 구성원들을 소개합니다.</p>
       <div class="terminal-box reveal">
-        <div class="t-line"><span class="prompt">root@sekurity:~# </span><span class="cmd">ls ./members</span></div>
-        <div class="t-line"><span class="out">Loading member profiles...</span></div>
-        <div class="t-line" style="color:var(--accent);">[ PAGE UNDER CONSTRUCTION ]</div>
+        <div class="t-line"><span class="prompt">root@sekurity:~# </span><span>ls ./members</span></div>
+        <div class="t-line"><span style="color:var(--text-dim);">Loading member profiles...</span></div>
+        <div class="t-line" style="color:var(--accent);">[ CLICK BELOW TO VIEW ]</div>
         <div class="t-line"><span class="prompt">root@sekurity:~# </span><span class="blink-cursor" style="display:inline-block;width:8px;height:12px;background:var(--accent);"></span></div>
+      </div>
+      <div style="margin-top:24px;" class="reveal">
+        <a href="members.html" class="btn-primary" style="display:inline-flex;">▶ VIEW MEMBERS</a>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="sec-label reveal">CONTACT</div>
     <h2 class="contact-title reveal">연락처<br><span>// GET IN TOUCH</span></h2>
@@ -852,27 +591,24 @@
           </div>
         </div>
       </div>
-      <div>
-        <div class="recruit-box reveal">
-          <div class="recruit-title">신입 부원 모집</div>
-          <div class="recruit-status">● CLOSED</div>
-          <p class="recruit-text">
-            신입 부원은 <span style="color:var(--text);">매 학기 초반</span>에 모집합니다.<br>
-            지원 방법은 모집 시기에 맞춰 별도 Form을 배포할 예정입니다.<br><br>
-            <span style="color:var(--accent);">// 모집 공지는 추후 업데이트 예정</span>
-          </p>
-        </div>
+      <div class="recruit-box">
+        <div class="recruit-title">신입 부원 모집</div>
+        <div class="recruit-status">● CLOSED</div>
+        <p class="recruit-text">
+          신입 부원은 <span style="color:var(--text);">매 학기 초반</span>에 모집합니다.<br>
+          지원 방법은 모집 시기에 맞춰 별도 Form을 배포할 예정입니다.<br><br>
+          <span style="color:var(--accent);">// 모집 공지는 추후 업데이트 예정</span>
+        </p>
       </div>
     </div>
   </section>
 
 </main>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">se<span class="ku">KU</span>rity</div>
   <div style="font-size:10px;letter-spacing:2px;color:var(--text-dim);">건국대학교 글로컬캠퍼스 컴퓨터공학과</div>
-  <div class="footer-right">
+  <div style="text-align:right;">
     <div>// HACK THE PLANET</div>
     <div style="color:var(--accent);margin-top:4px;">SYSTEM ONLINE</div>
   </div>
@@ -911,8 +647,7 @@ function typeWelcome() {
   const msg = 'WELCOME!';
   let i = 0;
   const t = setInterval(() => {
-    welcomeTxt.textContent += msg[i];
-    i++;
+    welcomeTxt.textContent += msg[i]; i++;
     if (i >= msg.length) {
       clearInterval(t);
       setTimeout(() => {
@@ -926,11 +661,8 @@ function typeWelcome() {
 }
 
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('shown');
-  });
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('shown'); });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 setInterval(() => {
