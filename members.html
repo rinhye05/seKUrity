@@ -404,10 +404,80 @@
 </footer>
 
 <script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('shown'); });
-}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const barFill = document.getElementById('bar-fill');
+const barPct  = document.getElementById('bar-pct');
+const phase1  = document.getElementById('loader-phase1');
+const welcome = document.getElementById('loader-welcome');
+const welcomeTxt = document.getElementById('welcome-text');
+const loader  = document.getElementById('loader');
+const mainEl  = document.getElementById('main');
+
+function initPage() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('shown'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  setInterval(() => {
+    const el = document.getElementById('cmd-blink');
+    if (el) el.style.opacity = el.style.opacity === '0' ? '1' : '0';
+  }, 600);
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior:'smooth' });
+    });
+  });
+}
+
+// fragment 있으면 인트로 스킵
+if (window.location.hash) {
+  loader.style.display = 'none';
+  mainEl.classList.add('visible');
+  initPage();
+} else {
+  let pct = 0;
+  const interval = setInterval(() => {
+    pct += Math.random() * 8 + 4;
+    if (pct >= 100) { pct = 100; clearInterval(interval); onLoadComplete(); }
+    barFill.style.width = pct + '%';
+    barPct.textContent  = Math.floor(pct) + '%';
+  }, 30);
+
+  function onLoadComplete() {
+    setTimeout(() => {
+      phase1.style.transition = 'opacity 0.4s';
+      phase1.style.opacity = '0';
+      setTimeout(() => {
+        phase1.style.display = 'none';
+        welcome.style.display = 'flex';
+        typeWelcome();
+      }, 400);
+    }, 300);
+  }
+
+  function typeWelcome() {
+    const msg = 'WELCOME!';
+    let i = 0;
+    const t = setInterval(() => {
+      welcomeTxt.textContent += msg[i]; i++;
+      if (i >= msg.length) {
+        clearInterval(t);
+        setTimeout(() => {
+          loader.style.transition = 'opacity 0.6s';
+          loader.style.opacity = '0';
+          mainEl.classList.add('visible');
+          setTimeout(() => {
+            loader.style.display = 'none';
+            initPage();
+          }, 600);
+        }, 800);
+      }
+    }, 120);
+  }
+}
 </script>
 </body>
 </html>
