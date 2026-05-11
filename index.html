@@ -448,7 +448,14 @@
     <li><a href="#achievements">ACHIEVEMENTS</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
-  <div class="nav-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div id="nav-auth-main" style="display:flex;gap:12px;font-size:11px;letter-spacing:2px;">
+      <a href="login.html" style="color:var(--text-dim);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">LOGIN</a>
+      <span style="color:var(--border);">|</span>
+      <a href="register.html" style="color:var(--text-dim);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">REGISTER</a>
+    </div>
+    <div class="nav-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
+  </div>
 </nav>
 
 <main id="main">
@@ -696,6 +703,7 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const barFill = document.getElementById('bar-fill');
 const barPct  = document.getElementById('bar-pct');
@@ -778,6 +786,25 @@ if (window.location.hash) {
     }, 120);
   }
 }
+// nav 로그인 상태 반영
+(async () => {
+  const sb = supabase.createClient(
+    'https://jixnmdbcffrymvcpmmmo.supabase.co',
+    'sb_publishable_tFznbTB8vMgC_vwJdujcKw_tL4HsfT1'
+  );
+  const { data: { user } } = await sb.auth.getUser();
+  if (user) {
+    const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+    const navAuth = document.getElementById('nav-auth-main');
+    if (navAuth) {
+      navAuth.innerHTML = `
+        <span style="color:var(--accent);letter-spacing:2px;">${profile?.name || ''}</span>
+        ${profile?.is_admin ? '<a href="admin.html" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">ADMIN</a><span style="color:var(--border);">|</span>' : ''}
+        <a href="#" onclick="(async()=>{await sb.auth.signOut();location.reload();})()" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">LOGOUT</a>
+      `;
+    }
+  }
+})();
 </script>
 </body>
 </html>
