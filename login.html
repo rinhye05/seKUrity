@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seKUrity — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --accent: #2ade02; --accent-dim: rgba(42,222,2,0.15);
+    --accent-glow: rgba(42,222,2,0.6); --bg: #000; --bg2: #050a03;
+    --border: rgba(42,222,2,0.35); --text: #c8f5c0;
+    --text-dim: rgba(200,245,192,0.75); --danger: #ff3030;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Share Tech Mono',monospace; min-height:100vh; display:flex; flex-direction:column; }
+  body::before {
+    content:''; position:fixed; inset:0; z-index:9999;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);
+    pointer-events:none;
+  }
+  nav {
+    border-bottom:1px solid var(--border); background:rgba(0,0,0,0.92);
+    backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:space-between;
+    padding:0 clamp(16px,4vw,48px); height:56px;
+  }
+  .nav-logo { font-family:'Orbitron',sans-serif; font-size:16px; font-weight:700; letter-spacing:4px; color:var(--text); text-decoration:none; }
+  .nav-logo .ku { color:var(--accent); text-shadow:0 0 10px var(--accent-glow); }
+  .page-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 16px; }
+  .card {
+    border:1px solid var(--border); background:rgba(42,222,2,0.03);
+    padding:48px 40px; width:100%; max-width:440px; position:relative;
+    clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px));
+  }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--accent); }
+  .card-title { font-family:'Orbitron',sans-serif; font-size:22px; font-weight:700; margin-bottom:8px; }
+  .card-title span { color:var(--accent); }
+  .card-sub { font-size:11px; color:var(--text-dim); letter-spacing:2px; margin-bottom:36px; }
+  .field { margin-bottom:20px; }
+  .field label { display:block; font-size:10px; letter-spacing:3px; color:var(--accent); margin-bottom:8px; text-transform:uppercase; }
+  .field input {
+    width:100%; background:rgba(42,222,2,0.04); border:1px solid var(--border);
+    color:var(--text); font-family:'Share Tech Mono',monospace; font-size:14px;
+    padding:12px 16px; outline:none; transition:border-color .2s;
+  }
+  .field input:focus { border-color:var(--accent); box-shadow:0 0 12px rgba(42,222,2,0.15); }
+  .btn {
+    width:100%; padding:14px; border:1px solid var(--accent);
+    background:rgba(42,222,2,0.08); color:var(--accent);
+    font-family:'Share Tech Mono',monospace; font-size:12px; letter-spacing:3px;
+    text-transform:uppercase; cursor:pointer; transition:background .2s, box-shadow .2s;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+    margin-top:8px;
+  }
+  .btn:hover { background:rgba(42,222,2,0.18); box-shadow:0 0 20px rgba(42,222,2,0.25); }
+  .msg { font-size:12px; margin-top:16px; padding:10px 14px; border:1px solid; display:none; }
+  .msg.error { color:var(--danger); border-color:var(--danger); background:rgba(255,48,48,0.05); }
+  .msg.success { color:var(--accent); border-color:var(--accent); background:rgba(42,222,2,0.05); }
+  .links { margin-top:24px; text-align:center; font-size:11px; color:var(--text-dim); }
+  .links a { color:var(--accent); text-decoration:none; }
+  .links a:hover { text-shadow:0 0 8px var(--accent-glow); }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">se<span class="ku">KU</span>rity</a>
+</nav>
+<div class="page-wrap">
+  <div class="card">
+    <div class="card-title">se<span>KU</span>rity</div>
+    <div class="card-sub">// MEMBER LOGIN</div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="example@email.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••">
+    </div>
+    <button class="btn" onclick="login()">▶ LOGIN</button>
+    <div class="msg" id="msg"></div>
+    <div class="links">
+      계정이 없으신가요? <a href="register.html">회원가입</a>
+    </div>
+  </div>
+</div>
+<script>
+const sb = supabase.createClient(
+  'https://jixnmdbcffrymvcpmmmo.supabase.co',
+  'sb_publishable_tFznbTB8vMgC_vwJdujcKw_tL4HsfT1'
+);
+
+async function login() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const msg = document.getElementById('msg');
+  msg.style.display = 'none';
+
+  if (!email || !password) { showMsg('이메일과 비밀번호를 입력해주세요.', 'error'); return; }
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) { showMsg(error.message, 'error'); return; }
+
+  // 관리자 확인
+  const { data: profile } = await sb.from('profiles').select('is_admin').eq('id', data.user.id).single();
+  if (profile?.is_admin) {
+    window.location.href = 'admin.html';
+  } else {
+    window.location.href = 'members.html';
+  }
+}
+
+function showMsg(text, type) {
+  const msg = document.getElementById('msg');
+  msg.textContent = text;
+  msg.className = 'msg ' + type;
+  msg.style.display = 'block';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+</script>
+</body>
+</html>
