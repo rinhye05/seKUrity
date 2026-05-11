@@ -313,11 +313,15 @@ function renderUsers() {
 }
 
 async function assignUser(userId, memberId) {
-  // 기존 할당 해제
-  await sb.from('members').update({ assigned_user_id: null }).eq('assigned_user_id', userId);
-
-  if (memberId) {
-    await sb.from('members').update({ assigned_user_id: userId }).eq('id', memberId);
+  if (!memberId) {
+    const { error } = await sb.from('members').update({ assigned_user_id: null }).eq('assigned_user_id', userId);
+    if (error) { toast('해제 실패: ' + error.message); return; }
+  } else {
+    // 기존 할당 해제
+    await sb.from('members').update({ assigned_user_id: null }).eq('assigned_user_id', userId);
+    // 새 할당
+    const { error } = await sb.from('members').update({ assigned_user_id: userId }).eq('id', memberId);
+    if (error) { toast('할당 실패: ' + error.message); return; }
   }
 
   await loadMembers();
