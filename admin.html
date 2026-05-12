@@ -271,8 +271,8 @@ async function init() {
 
   document.getElementById('admin-name').textContent = profile.name || 'ADMIN';
 
-  await loadMembers();
   await loadUsers();
+  await loadMembers();
   await loadScores();
 }
 
