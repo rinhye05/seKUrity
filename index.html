@@ -787,11 +787,12 @@ if (window.location.hash) {
   }
 }
 // nav 로그인 상태 반영
+const sb = supabase.createClient(
+  'https://jixnmdbcffrymvcpmmmo.supabase.co',
+  'sb_publishable_tFznbTB8vMgC_vwJdujcKw_tL4HsfT1'
+);
+
 (async () => {
-  const sb = supabase.createClient(
-    'https://jixnmdbcffrymvcpmmmo.supabase.co',
-    'sb_publishable_tFznbTB8vMgC_vwJdujcKw_tL4HsfT1'
-  );
   const { data: { user } } = await sb.auth.getUser();
   if (user) {
     const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();

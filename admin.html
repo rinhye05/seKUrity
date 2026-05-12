@@ -204,8 +204,8 @@
         </select>
       </div>
       <div class="form-field form-full">
-        <label>관심분야 (쉼표로 구분)</label>
-        <input type="text" id="f-fields" placeholder="Web Hacking, Pwnable, Reversing">
+        <label>관심분야</label>
+        <div id="f-fields-check" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;"></div>
       </div>
       <div class="form-field form-full">
         <label>블로그 URL</label>
@@ -335,14 +335,44 @@ async function toggleAdmin(userId, isAdmin) {
   toast(isAdmin ? '관리자 권한 해제' : '관리자 권한 부여');
 }
 
+const FIELD_OPTIONS = ['Web Hacking','Pwnable','Reversing','Forensics','System','Cryptography','Hardware Hacking'];
+
+function renderFieldCheck(selected = []) {
+  const container = document.getElementById('f-fields-check');
+  container.innerHTML = FIELD_OPTIONS.map(f => `
+    <label style="display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:1px;padding:6px 10px;border:1px solid ${selected.includes(f)?'var(--accent)':'var(--border)'};background:${selected.includes(f)?'rgba(42,222,2,0.1)':'transparent'};cursor:pointer;transition:all .2s;user-select:none;"
+      onclick="toggleAdminField(this)">
+      <span style="color:${selected.includes(f)?'var(--accent)':'var(--text-dim)'}">
+        ${selected.includes(f)?'[✓]':'[ ]'}
+      </span>
+      <span style="color:${selected.includes(f)?'var(--accent)':'var(--text-dim)'}">${f}</span>
+    </label>
+  `).join('');
+}
+
+function toggleAdminField(el) {
+  const isOn = el.querySelector('span').textContent.includes('✓');
+  if (isOn) {
+    el.style.borderColor = 'var(--border)';
+    el.style.background = 'transparent';
+    el.querySelectorAll('span').forEach(s => s.style.color = 'var(--text-dim)');
+    el.querySelector('span').textContent = '[ ]';
+  } else {
+    el.style.borderColor = 'var(--accent)';
+    el.style.background = 'rgba(42,222,2,0.1)';
+    el.querySelectorAll('span').forEach(s => s.style.color = 'var(--accent)');
+    el.querySelector('span').textContent = '[✓]';
+  }
+}
+
 function openAddModal() {
   document.getElementById('modal-title').textContent = '// ADD MEMBER';
   document.getElementById('edit-id').value = '';
   document.getElementById('f-name').value = '';
   document.getElementById('f-role').value = 'member';
-  document.getElementById('f-fields').value = '';
   document.getElementById('f-blog').value = '';
   document.getElementById('f-order').value = '99';
+  renderFieldCheck([]);
   document.getElementById('modal').classList.add('open');
 }
 
@@ -353,9 +383,9 @@ function openEditModal(id) {
   document.getElementById('edit-id').value = m.id;
   document.getElementById('f-name').value = m.name;
   document.getElementById('f-role').value = m.role;
-  document.getElementById('f-fields').value = (m.fields||[]).join(', ');
   document.getElementById('f-blog').value = m.blog_url || '';
   document.getElementById('f-order').value = m.display_order;
+  renderFieldCheck(m.fields || []);
   document.getElementById('modal').classList.add('open');
 }
 
@@ -366,7 +396,9 @@ async function saveMember() {
   const data = {
     name: document.getElementById('f-name').value.trim(),
     role: document.getElementById('f-role').value,
-    fields: document.getElementById('f-fields').value.split(',').map(s=>s.trim()).filter(Boolean),
+    fields: [...document.getElementById('f-fields-check').querySelectorAll('label')]
+      .filter(el => el.querySelector('span').textContent.includes('✓'))
+      .map(el => el.querySelectorAll('span')[1].textContent.trim()),
     blog_url: document.getElementById('f-blog').value.trim() || null,
     display_order: parseInt(document.getElementById('f-order').value) || 99,
   };

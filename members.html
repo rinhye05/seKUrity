@@ -161,8 +161,8 @@
     <div class="modal-title">// EDIT MY CARD</div>
     <input type="hidden" id="edit-member-id">
     <div class="form-field">
-      <label>관심분야 (쉼표로 구분)</label>
-      <input type="text" id="edit-fields" placeholder="Web Hacking, Pwnable">
+      <label>관심분야</label>
+      <div id="edit-fields-check" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;"></div>
     </div>
     <div class="form-field">
       <label>블로그 URL</label>
@@ -276,18 +276,47 @@ function renderMemberCard(m, num) {
   </div>`;
 }
 
+const FIELD_OPTIONS = ['Web Hacking','Pwnable','Reversing','Forensics','System','Cryptography','Hardware Hacking'];
+
 function openEditModal(id, fields, blog) {
   document.getElementById('edit-member-id').value = id;
-  document.getElementById('edit-fields').value = fields;
   document.getElementById('edit-blog').value = blog;
+  const selected = fields ? fields.split(',').map(s=>s.trim()) : [];
+  const container = document.getElementById('edit-fields-check');
+  container.innerHTML = FIELD_OPTIONS.map(f => `
+    <label style="display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:1px;padding:6px 10px;border:1px solid ${selected.includes(f)?'var(--accent)':'var(--border)'};background:${selected.includes(f)?'rgba(42,222,2,0.1)':'transparent'};cursor:pointer;transition:all .2s;user-select:none;"
+      onclick="toggleField(this,'${f}')">
+      <span style="color:${selected.includes(f)?'var(--accent)':'var(--text-dim)'}">
+        ${selected.includes(f)?'[✓]':'[ ]'}
+      </span>
+      <span style="color:${selected.includes(f)?'var(--accent)':'var(--text-dim)'}">${f}</span>
+    </label>
+  `).join('');
   document.getElementById('edit-modal').classList.add('open');
+}
+
+function toggleField(el, field) {
+  const isOn = el.querySelector('span').textContent.includes('✓');
+  if (isOn) {
+    el.style.borderColor = 'var(--border)';
+    el.style.background = 'transparent';
+    el.querySelectorAll('span').forEach(s => s.style.color = 'var(--text-dim)');
+    el.querySelector('span').textContent = '[ ]';
+  } else {
+    el.style.borderColor = 'var(--accent)';
+    el.style.background = 'rgba(42,222,2,0.1)';
+    el.querySelectorAll('span').forEach(s => s.style.color = 'var(--accent)');
+    el.querySelector('span').textContent = '[✓]';
+  }
 }
 
 function closeEditModal() { document.getElementById('edit-modal').classList.remove('open'); }
 
 async function saveMyCard() {
   const id = document.getElementById('edit-member-id').value;
-  const fields = document.getElementById('edit-fields').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const fields = [...document.getElementById('edit-fields-check').querySelectorAll('label')]
+    .filter(el => el.querySelector('span').textContent.includes('✓'))
+    .map(el => el.querySelectorAll('span')[1].textContent.trim());
   const blog_url = document.getElementById('edit-blog').value.trim() || null;
 
   const { error } = await sb.from('members').update({ fields, blog_url }).eq('id', id);
