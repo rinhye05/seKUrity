@@ -271,8 +271,18 @@ async function init() {
 
   document.getElementById('admin-name').textContent = profile.name || 'ADMIN';
 
-  await loadUsers();
-  await loadMembers();
+  // 데이터 먼저 전부 불러오기
+  const [membersRes, usersRes] = await Promise.all([
+    sb.from('members').select('*').order('display_order'),
+    sb.from('profiles').select('*')
+  ]);
+
+  members = membersRes.data || [];
+  users = usersRes.data || [];
+
+  // 다 불러온 후 렌더링
+  renderMembers();
+  renderUsers();
   await loadScores();
 }
 
@@ -280,12 +290,14 @@ async function loadMembers() {
   const { data } = await sb.from('members').select('*').order('display_order');
   members = data || [];
   renderMembers();
+  renderUsers();
 }
 
 async function loadUsers() {
   const { data } = await sb.from('profiles').select('*');
   users = data || [];
   renderUsers();
+  renderMembers();
 }
 
 function renderMembers() {
