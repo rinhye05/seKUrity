@@ -191,7 +191,7 @@
     .hamburger { display:flex; }
     .nav-links { display:none !important; }
     .nav-status { display:none !important; }
-    .nav-right span { display:none; }
+    .nav-right { display:none; }
     .score-add-form { grid-template-columns:1fr 1fr; }
     .user-actions { flex-direction:column; align-items:flex-start; }
     .assign-select { width:100%; }
@@ -562,7 +562,7 @@ function renderScores() {
         <div style="display:flex;align-items:center;gap:24px;">
           <div style="text-align:right;">
             <div class="score-total-label">TOTAL SCORE</div>
-            <div class="score-total" style="color:${total < 0 ? 'var(--danger)' : 'var(--accent)'};">${total >= 0 ? '+' : ''}${total}</div>
+            <div class="score-total" style="color:${total < 0 ? 'var(--danger)' : 'var(--accent)'}; font-family:'Share Tech Mono',monospace;">${total >= 0 ? '+' : ''}${total}</div>
           </div>
           <span class="toggle-arrow" id="arrow-${m.id}">▶</span>
         </div>
