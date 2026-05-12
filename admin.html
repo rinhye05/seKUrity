@@ -144,7 +144,7 @@
   .score-body.open { display:block; }
   .score-add-form { display:grid; grid-template-columns:1fr 2fr 120px 80px; gap:8px; padding:16px 20px; border-bottom:1px solid var(--border); background:rgba(42,222,2,0.02); }
   @media(max-width:700px) { .score-add-form { grid-template-columns:1fr 1fr; } }
-  .score-add-form in.score-add-form input { background:rgba(42,222,2,0.04); border:1px solid var(--border); color:var(--text); font-family:'Share Tech Mono',monospace; font-size:14px; padding:10px 12px; outline:none; width:100%; }put { background:rgba(42,222,2,0.04); border:1px solid var(--border); color:var(--text); font-family:'Share Tech Mono',monospace; font-size:12px; padding:8px 12px; outline:none; width:100%; }
+  .score-add-form input { background:rgba(42,222,2,0.04); border:1px solid var(--border); color:var(--text); font-family:'Share Tech Mono',monospace; font-size:14px; padding:10px 12px; outline:none; width:100%; }
   .score-add-form input:focus { border-color:var(--accent); }
   .score-table { width:100%; border-collapse:collapse; font-size:14px; }
   .score-table th { font-size:11px; letter-spacing:3px; color:var(--accent); text-transform:uppercase; padding:10px 16px; border-bottom:1px solid var(--border); text-align:left; }
@@ -158,6 +158,44 @@
   .btn-del-score:hover { opacity:1; }
   .toggle-arrow { color:var(--text-dim); font-size:12px; transition:transform .3s; }
   .toggle-arrow.open { transform:rotate(90deg); }
+  /* ── 반응형 ── */
+  .hamburger {
+    display:none; flex-direction:column; gap:5px;
+    cursor:pointer; padding:4px; background:none; border:none;
+  }
+  .hamburger span {
+    display:block; width:22px; height:2px;
+    background:var(--accent); transition:all .3s;
+  }
+  .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+  .hamburger.open span:nth-child(2) { opacity:0; }
+  .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+  .mobile-menu {
+    display:none; position:fixed; top:56px; left:0; right:0; z-index:99;
+    background:rgba(0,0,0,0.97); border-bottom:1px solid var(--border);
+    padding:20px 24px; flex-direction:column; gap:4px;
+    backdrop-filter:blur(12px);
+  }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a {
+    font-size:13px; letter-spacing:3px; color:var(--text-dim);
+    text-decoration:none; text-transform:uppercase;
+    padding:12px 0; border-bottom:1px solid rgba(42,222,2,0.07);
+    transition:color .2s;
+  }
+  .mobile-menu a:last-child { border-bottom:none; }
+  .mobile-menu a:hover { color:var(--accent); }
+
+  @media(max-width:768px) {
+    .hamburger { display:flex; }
+    .nav-links { display:none !important; }
+    .nav-status { display:none !important; }
+    .nav-right span { display:none; }
+    .score-add-form { grid-template-columns:1fr 1fr; }
+    .user-actions { flex-direction:column; align-items:flex-start; }
+    .assign-select { width:100%; }
+  }
 </style>
 </head>
 <body>
@@ -167,7 +205,15 @@
     <span id="admin-name" style="color:var(--accent);"></span>
     <a href="#" onclick="logout()">LOGOUT</a>
   </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/">HOME</a>
+  <a href="/members">MEMBERS</a>
+  <a href="#" onclick="logout()">LOGOUT</a>
+</div>
 
 <div class="container" style="margin:0 auto;">
   <div class="page-title">ADMIN<span> PANEL</span></div>
@@ -576,6 +622,10 @@ async function deleteScore(scoreId, memberId) {
   document.getElementById(`body-${memberId}`).classList.add('open');
   document.getElementById(`arrow-${memberId}`).classList.add('open');
   toast('삭제 완료!');
+}
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
 }
 init();
 </script>

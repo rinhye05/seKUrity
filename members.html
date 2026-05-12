@@ -117,6 +117,41 @@
   .btn-save:hover { background:rgba(42,222,2,0.18); }
   .toast { position:fixed; bottom:24px; right:24px; z-index:10000; padding:12px 20px; border:1px solid var(--accent); background:rgba(0,0,0,0.95); color:var(--accent); font-size:12px; letter-spacing:2px; display:none; }
   @media(max-width:600px) { .members-grid { grid-template-columns:1fr; } }
+  /* ── 반응형 ── */
+  .hamburger {
+    display:none; flex-direction:column; gap:5px;
+    cursor:pointer; padding:4px; background:none; border:none;
+  }
+  .hamburger span {
+    display:block; width:22px; height:2px;
+    background:var(--accent); transition:all .3s;
+  }
+  .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+  .hamburger.open span:nth-child(2) { opacity:0; }
+  .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+  .mobile-menu {
+    display:none; position:fixed; top:56px; left:0; right:0; z-index:99;
+    background:rgba(0,0,0,0.97); border-bottom:1px solid var(--border);
+    padding:20px 24px; flex-direction:column; gap:4px;
+    backdrop-filter:blur(12px);
+  }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a {
+    font-size:13px; letter-spacing:3px; color:var(--text-dim);
+    text-decoration:none; text-transform:uppercase;
+    padding:12px 0; border-bottom:1px solid rgba(42,222,2,0.07);
+    transition:color .2s;
+  }
+  .mobile-menu a:last-child { border-bottom:none; }
+  .mobile-menu a:hover { color:var(--accent); }
+
+  @media(max-width:768px) {
+    .hamburger { display:flex; }
+    .nav-links { display:none !important; }
+    .nav-status { display:none !important; }
+    .nav-right span { display:none; }
+  }
 </style>
 </head>
 <body>
@@ -125,13 +160,25 @@
   <ul class="nav-links">
     <li><a href="/#about">ABOUT</a></li>
     <li><a href="/#activities">ACTIVITIES</a></li>
-    <li><a href="members" class="active">MEMBERS</a></li>
-    <li><a href="index.html#contact">CONTACT</a></li>
+    <li><a href="/members" class="active">MEMBERS</a></li>
+    <li><a href="/#contact">CONTACT</a></li>
   </ul>
   <div class="nav-auth" id="nav-auth">
     <a href="/login">LOGIN</a>
   </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/#about">ABOUT</a>
+  <a href="/#activities">ACTIVITIES</a>
+  <a href="/members">MEMBERS</a>
+  <a href="/#contact">CONTACT</a>
+  <div id="mobile-auth" style="padding-top:8px;display:flex;gap:16px;font-size:13px;letter-spacing:2px;">
+    <a href="/login">LOGIN</a>
+  </div>
+</div>
 
 <main>
   <div class="page-hero">
@@ -356,6 +403,10 @@ init();
     }
   }
 })();
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
 </script>
 </body>
 </html>

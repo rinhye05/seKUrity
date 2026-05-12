@@ -61,12 +61,56 @@
   .links { margin-top:24px; text-align:center; font-size:13px; color:var(--text-dim); }
   .links a { color:var(--accent); text-decoration:none; }
   .links a:hover { text-shadow:0 0 8px var(--accent-glow); }
+  /* ── 반응형 ── */
+  .hamburger {
+    display:none; flex-direction:column; gap:5px;
+    cursor:pointer; padding:4px; background:none; border:none;
+  }
+  .hamburger span {
+    display:block; width:22px; height:2px;
+    background:var(--accent); transition:all .3s;
+  }
+  .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+  .hamburger.open span:nth-child(2) { opacity:0; }
+  .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+  .mobile-menu {
+    display:none; position:fixed; top:56px; left:0; right:0; z-index:99;
+    background:rgba(0,0,0,0.97); border-bottom:1px solid var(--border);
+    padding:20px 24px; flex-direction:column; gap:4px;
+    backdrop-filter:blur(12px);
+  }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a {
+    font-size:13px; letter-spacing:3px; color:var(--text-dim);
+    text-decoration:none; text-transform:uppercase;
+    padding:12px 0; border-bottom:1px solid rgba(42,222,2,0.07);
+    transition:color .2s;
+  }
+  .mobile-menu a:last-child { border-bottom:none; }
+  .mobile-menu a:hover { color:var(--accent); }
+
+  @media(max-width:768px) {
+    .hamburger { display:flex; }
+    .nav-links { display:none !important; }
+    .nav-status { display:none !important; }
+    .nav-right span { display:none; }
+  }
 </style>
 </head>
 <body>
 <nav>
   <a href="/" class="nav-logo">se<span class="ku">KU</span>rity</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/">HOME</a>
+  <a href="/members">MEMBERS</a>
+  <a href="/login">LOGIN</a>
+  <a href="/register">REGISTER</a>
+</div>
 <div class="page-wrap">
   <div class="card">
     <div class="card-title">se<span>KU</span>rity</div>
@@ -120,6 +164,10 @@ function showMsg(text, type) {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
 </script>
 </body>
 </html>

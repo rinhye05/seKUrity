@@ -419,6 +419,41 @@
   }
   *, *:hover { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='2' fill='%232ade02'/%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%232ade02' stroke-width='1' opacity='0.5'/%3E%3C/svg%3E") 10 10, default; }
   a, button { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='3' fill='%232ade02'/%3E%3Ccircle cx='10' cy='10' r='7' fill='none' stroke='%232ade02' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer; }
+/* ── 반응형 ── */
+  .hamburger {
+    display:none; flex-direction:column; gap:5px;
+    cursor:pointer; padding:4px; background:none; border:none;
+  }
+  .hamburger span {
+    display:block; width:22px; height:2px;
+    background:var(--accent); transition:all .3s;
+  }
+  .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+  .hamburger.open span:nth-child(2) { opacity:0; }
+  .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+  .mobile-menu {
+    display:none; position:fixed; top:56px; left:0; right:0; z-index:99;
+    background:rgba(0,0,0,0.97); border-bottom:1px solid var(--border);
+    padding:20px 24px; flex-direction:column; gap:4px;
+    backdrop-filter:blur(12px);
+  }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a {
+    font-size:13px; letter-spacing:3px; color:var(--text-dim);
+    text-decoration:none; text-transform:uppercase;
+    padding:12px 0; border-bottom:1px solid rgba(42,222,2,0.07);
+    transition:color .2s;
+  }
+  .mobile-menu a:last-child { border-bottom:none; }
+  .mobile-menu a:hover { color:var(--accent); }
+
+  @media(max-width:768px) {
+    .hamburger { display:flex; }
+    .nav-links { display:none !important; }
+    .nav-status { display:none !important; }
+    .nav-right span { display:none; }
+  }
 </style>
 </head>
 <body>
@@ -446,7 +481,7 @@
   <ul class="nav-links">
     <li><a href="#about">ABOUT</a></li>
     <li><a href="#activities">ACTIVITIES</a></li>
-    <li><a href="members">MEMBERS</a></li>
+    <li><a href="/members">MEMBERS</a></li>
     <li><a href="#achievements">ACHIEVEMENTS</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
@@ -457,8 +492,22 @@
       <a href="/register" style="color:var(--text-dim);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">REGISTER</a>
     </div>
     <div class="nav-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="toggleMenu()">ABOUT</a>
+  <a href="#activities" onclick="toggleMenu()">ACTIVITIES</a>
+  <a href="/members">MEMBERS</a>
+  <a href="#achievements" onclick="toggleMenu()">ACHIEVEMENTS</a>
+  <a href="#contact" onclick="toggleMenu()">CONTACT</a>
+  <div id="mobile-auth" style="padding-top:8px;display:flex;gap:16px;font-size:13px;letter-spacing:2px;">
+    <a href="/login">LOGIN</a>
+    <a href="/register">REGISTER</a>
+  </div>
+</div>
 
 <main id="main">
 
@@ -806,6 +855,23 @@ const sb = supabase.createClient(
         <a href="#" onclick="(async()=>{await sb.auth.signOut();location.reload();})()" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">LOGOUT</a>
       `;
     }
+  }
+})();
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+// 모바일 auth nav 동기화
+(async () => {
+  const { data: { user } } = await sb.auth.getUser();
+  const mobileAuth = document.getElementById('mobile-auth');
+  if (user && mobileAuth) {
+    const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+    mobileAuth.innerHTML = `
+      <a href="/profile" style="color:var(--accent);">${profile?.name || ''}</a>
+      ${profile?.is_admin ? '<a href="/admin">ADMIN</a>' : ''}
+      <a href="#" onclick="(async()=>{await sb.auth.signOut();location.reload();})()">LOGOUT</a>
+    `;
   }
 })();
 </script>
