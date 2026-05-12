@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/admin", "destination": "/admin.html" }
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/members", "destination": "/members.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/register", "destination": "/register.html" }
   ]
 }

@@ -129,7 +129,7 @@
     <li><a href="index.html#contact">CONTACT</a></li>
   </ul>
   <div class="nav-auth" id="nav-auth">
-    <a href="login.html">LOGIN</a>
+    <a href="/login">LOGIN</a>
   </div>
 </nav>
 
@@ -340,6 +340,22 @@ async function logout() {
 }
 
 init();
+
+// nav 로그인 상태 반영
+(async () => {
+  const { data: { user } } = await sb.auth.getUser();
+  if (user) {
+    const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+    const navAuth = document.getElementById('nav-auth');
+    if (navAuth) {
+      navAuth.innerHTML = `
+        <a href="/profile" style="color:var(--accent);text-decoration:none;letter-spacing:2px;font-size:11px;">${profile?.name || ''}</a>
+        ${profile?.is_admin ? '<a href="/admin" style="color:var(--text-dim);text-decoration:none;font-size:11px;letter-spacing:2px;">ADMIN</a>' : ''}
+        <a href="#" onclick="(async()=>{await sb.auth.signOut();location.href='/'})()" style="color:var(--text-dim);text-decoration:none;font-size:11px;letter-spacing:2px;">LOGOUT</a>
+      `;
+    }
+  }
+})();
 </script>
 </body>
 </html>
