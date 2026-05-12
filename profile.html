@@ -143,6 +143,13 @@
       </div>
 
       <div class="edit-section">
+        <div class="edit-section" style="margin-bottom:24px;">
+        <div class="section-title">// ACCOUNT</div>
+        <button class="btn-save" onclick="resetPassword()" style="background:rgba(0,207,255,0.08);border-color:#00cfff;color:#00cfff;">
+          ▶ 비밀번호 재설정 메일 발송
+        </button>
+        <div id="reset-msg" style="margin-top:12px;font-size:12px;color:var(--accent);display:none;"></div>
+      </div>
         <div class="section-title">// EDIT MY CARD</div>
         <div class="form-field">
           <label>관심분야</label>
@@ -298,6 +305,25 @@ async function logout() {
   window.location.href = '/';
 }
 
+async function resetPassword() {
+  const { data: { user } } = await sb.auth.getUser();
+  const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+
+  // Supabase auth에서 이메일 가져오기
+  const { error } = await sb.auth.resetPasswordForEmail(user.email, {
+    redirectTo: 'https://se-k-urity.vercel.app/profile'
+  });
+
+  const msg = document.getElementById('reset-msg');
+  if (error) {
+    msg.style.color = 'var(--danger)';
+    msg.textContent = '오류: ' + error.message;
+  } else {
+    msg.style.color = 'var(--accent)';
+    msg.textContent = '// 이메일로 재설정 링크를 발송했습니다.';
+  }
+  msg.style.display = 'block';
+}
 init();
 </script>
 </body>
