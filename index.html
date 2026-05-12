@@ -15,7 +15,7 @@
     --bg2: #050a03;
     --border: rgba(42,222,2,0.35);
     --text: #c8f5c0;
-    --text-dim: rgba(200,245,192,0.75);
+    --text-dim: rgba(200,245,192,0.9);
     --danger: #ff3030;
   }
 
@@ -25,6 +25,8 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'Share Tech Mono', monospace;
+    font-size: 15px;
+    line-height: 1.8;
     overflow-x: hidden;
     cursor: default;
   }
@@ -285,7 +287,7 @@
   }
   .about-title span { color:var(--accent); }
 
-  .about-text { font-size:14px; line-height:2.1; color:var(--text-dim); margin-bottom:16px; }
+  .about-text { font-size:15px; line-height:2.1; color:var(--text-dim); margin-bottom:16px; }
 
   .about-card {
     border:1px solid var(--border); background: var(--accent-dim);
@@ -328,7 +330,7 @@
   .act-card:hover .act-num { color:rgba(42,222,2,0.4); }
   .act-icon { font-size:28px; margin-bottom:16px; filter: drop-shadow(0 0 6px var(--accent-glow)); }
   .act-name { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; margin-bottom:12px; color:var(--text); }
-  .act-desc { font-size:13px; line-height:1.9; color:var(--text-dim); }
+  .act-desc { font-size:14px; line-height:2; color:var(--text-dim); }
 
   /* MEMBERS TEASER */
   #members-teaser { border-top:1px solid var(--border); text-align:center; background: var(--bg); }
@@ -400,13 +402,13 @@
   .reveal.shown { opacity:1; transform:translateY(0); }
   .ach-row {
     display:flex; gap:16px; align-items:flex-start;
-    padding:10px 0; border-bottom:1px solid rgba(42,222,2,0.07);
-    font-size:12px; line-height:1.6;
+    padding:12px 0; border-bottom:1px solid rgba(42,222,2,0.1);
+    font-size:14px; line-height:1.8;
   }
   .ach-row:last-child { border-bottom:none; }
   .ach-year {
-    font-family:'Orbitron',sans-serif; font-size:11px;
-    color:var(--text-dim); min-width:40px; padding-top:1px;
+    font-family:'Orbitron',sans-serif; font-size:13px;
+    color:var(--text-dim); min-width:44px; padding-top:1px;
   }
   .ach-text { color:var(--text); flex:1; }
 

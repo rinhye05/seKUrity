@@ -12,10 +12,10 @@
     --accent: #2ade02; --accent-dim: rgba(42,222,2,0.15);
     --accent-glow: rgba(42,222,2,0.6); --bg: #000; --bg2: #050a03;
     --border: rgba(42,222,2,0.35); --text: #c8f5c0;
-    --text-dim: rgba(200,245,192,0.75); --danger: #ff3030;
+    --text-dim: rgba(200,245,192,0.9); --danger: #ff3030;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Share Tech Mono',monospace; min-height:100vh; display:flex; flex-direction:column; }
+  body { background:var(--bg); color:var(--text); font-family:'Share Tech Mono',monospace; font-size:15px; line-height:1.8; min-height:100vh; display:flex; flex-direction:column; }
   body::before {
     content:''; position:fixed; inset:0; z-index:9999;
     background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);
@@ -37,7 +37,7 @@
   .card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--accent); }
   .card-title { font-family:'Orbitron',sans-serif; font-size:22px; font-weight:700; margin-bottom:8px; }
   .card-title span { color:var(--accent); }
-  .card-sub { font-size:11px; color:var(--text-dim); letter-spacing:2px; margin-bottom:36px; }
+  .card-sub { font-size:13px; color:var(--text-dim); letter-spacing:2px; margin-bottom:36px; }
   .field { margin-bottom:20px; }
   .field label { display:block; font-size:10px; letter-spacing:3px; color:var(--accent); margin-bottom:8px; text-transform:uppercase; }
   .field input {
@@ -58,7 +58,7 @@
   .msg { font-size:12px; margin-top:16px; padding:10px 14px; border:1px solid; display:none; }
   .msg.error { color:var(--danger); border-color:var(--danger); background:rgba(255,48,48,0.05); }
   .msg.success { color:var(--accent); border-color:var(--accent); background:rgba(42,222,2,0.05); }
-  .links { margin-top:24px; text-align:center; font-size:11px; color:var(--text-dim); }
+  .links { margin-top:24px; text-align:center; font-size:13px; color:var(--text-dim); }
   .links a { color:var(--accent); text-decoration:none; }
   .links a:hover { text-shadow:0 0 8px var(--accent-glow); }
 </style>
