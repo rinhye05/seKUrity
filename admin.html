@@ -134,6 +134,30 @@
   .modal-title { font-family:'Orbitron',sans-serif; font-size:16px; color:var(--accent); margin-bottom:24px; }
   .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; color:var(--text-dim); font-size:18px; cursor:pointer; }
   .modal-close:hover { color:var(--danger); }
+.score-card { border:1px solid var(--border); margin-bottom:2px; background:rgba(0,0,0,0.5); overflow:hidden; }
+  .score-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; cursor:pointer; transition:background .2s; flex-wrap:wrap; gap:12px; }
+  .score-header:hover { background:rgba(42,222,2,0.04); }
+  .score-name { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; }
+  .score-total { font-family:'Orbitron',sans-serif; font-size:16px; }
+  .score-total-label { font-size:10px; color:var(--text-dim); letter-spacing:2px; }
+  .score-body { display:none; border-top:1px solid var(--border); }
+  .score-body.open { display:block; }
+  .score-add-form { display:grid; grid-template-columns:1fr 2fr 120px 80px; gap:8px; padding:16px 20px; border-bottom:1px solid var(--border); background:rgba(42,222,2,0.02); }
+  @media(max-width:700px) { .score-add-form { grid-template-columns:1fr 1fr; } }
+  .score-add-form input { background:rgba(42,222,2,0.04); border:1px solid var(--border); color:var(--text); font-family:'Share Tech Mono',monospace; font-size:12px; padding:8px 12px; outline:none; width:100%; }
+  .score-add-form input:focus { border-color:var(--accent); }
+  .score-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .score-table th { font-size:9px; letter-spacing:3px; color:var(--accent); text-transform:uppercase; padding:10px 16px; border-bottom:1px solid var(--border); text-align:left; }
+  .score-table td { padding:10px 16px; border-bottom:1px solid rgba(42,222,2,0.06); color:var(--text-dim); }
+  .score-table tr:last-child td { border-bottom:none; }
+  .score-table tr:hover td { background:rgba(42,222,2,0.02); }
+  .pts-plus { color:var(--accent); font-family:'Orbitron',sans-serif; font-size:12px; }
+  .pts-minus { color:var(--danger); font-family:'Orbitron',sans-serif; font-size:12px; }
+  .running-total { color:var(--text); font-family:'Orbitron',sans-serif; font-size:12px; }
+  .btn-del-score { background:none; border:none; color:var(--danger); cursor:pointer; font-size:14px; opacity:0.5; }
+  .btn-del-score:hover { opacity:1; }
+  .toggle-arrow { color:var(--text-dim); font-size:12px; transition:transform .3s; }
+  .toggle-arrow.open { transform:rotate(90deg); }
 </style>
 </head>
 <body>
@@ -182,6 +206,13 @@
       <div style="color:var(--text-dim);font-size:12px;">Loading...</div>
     </div>
   </div>
+
+  <!-- 점수 관리 -->
+  <div class="section">
+    <div class="section-title">// SCORE MANAGEMENT</div>
+    <div id="score-list"></div>
+  </div>
+
 </div>
 
 <!-- 멤버 추가/수정 모달 -->
@@ -222,8 +253,6 @@
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
 const sb = supabase.createClient(
   'https://jixnmdbcffrymvcpmmmo.supabase.co',
@@ -244,6 +273,7 @@ async function init() {
 
   await loadMembers();
   await loadUsers();
+  await loadScores();
 }
 
 async function loadMembers() {
@@ -326,6 +356,7 @@ async function assignUser(userId, memberId) {
 
   await loadMembers();
   await loadUsers();
+  await loadScores();
   toast('할당 완료!');
 }
 
@@ -436,7 +467,106 @@ async function logout() {
   window.location.href = 'index.html';
 }
 
+let allScores = {};
+
+async function loadScores() {
+  const { data: scoreData } = await sb.from('scores').select('*').order('date', { ascending: true });
+  allScores = {};
+  (scoreData || []).forEach(s => {
+    if (!allScores[s.member_id]) allScores[s.member_id] = [];
+    allScores[s.member_id].push(s);
+  });
+  renderScores();
+}
+
+function renderScores() {
+  const container = document.getElementById('score-list');
+  if (!members.length) { container.innerHTML = '<div style="color:var(--text-dim);font-size:12px;">멤버 없음</div>'; return; }
+
+  container.innerHTML = members.map(m => {
+    const mScores = allScores[m.id] || [];
+    const total = mScores.reduce((sum, s) => sum + s.points, 0);
+
+    let running = 0;
+    const timelineRows = [...mScores].sort((a,b) => new Date(b.date) - new Date(a.date)).map(s => {
+      return s;
+    });
+    let cum = 0;
+    const withCumulative = [...mScores].sort((a,b) => new Date(a.date) - new Date(b.date)).map(s => {
+      cum += s.points;
+      return { ...s, runningTotal: cum };
+    }).reverse();
+
+    return `
+    <div class="score-card">
+      <div class="score-header" onclick="toggleScore('${m.id}')">
+        <div class="score-name">${m.name}</div>
+        <div style="display:flex;align-items:center;gap:24px;">
+          <div style="text-align:right;">
+            <div class="score-total-label">TOTAL SCORE</div>
+            <div class="score-total" style="color:${total < 0 ? 'var(--danger)' : 'var(--accent)'};">${total >= 0 ? '+' : ''}${total}</div>
+          </div>
+          <span class="toggle-arrow" id="arrow-${m.id}">▶</span>
+        </div>
+      </div>
+      <div class="score-body" id="body-${m.id}">
+        <div class="score-add-form">
+          <input type="date" id="date-${m.id}" value="${new Date().toISOString().slice(0,10)}">
+          <input type="text" id="reason-${m.id}" placeholder="사유 입력">
+          <input type="number" id="points-${m.id}" placeholder="점수 (+/-)">
+          <button class="btn-primary" onclick="addScore('${m.id}')" style="padding:8px 12px;font-size:10px;">+ ADD</button>
+        </div>
+        <table class="score-table">
+          <thead>
+            <tr><th>날짜</th><th>사유</th><th>점수</th><th>누적</th><th></th></tr>
+          </thead>
+          <tbody>
+            ${withCumulative.length ? withCumulative.map(s => `
+              <tr>
+                <td>${s.date}</td>
+                <td style="color:var(--text);">${s.reason}</td>
+                <td class="${s.points >= 0 ? 'pts-plus' : 'pts-minus'}">${s.points >= 0 ? '+' : ''}${s.points}</td>
+                <td class="running-total">${s.runningTotal}</td>
+                <td><button class="btn-del-score" onclick="deleteScore('${s.id}','${m.id}')">✕</button></td>
+              </tr>
+            `).join('') : `<tr><td colspan="5" style="text-align:center;color:var(--text-dim);padding:20px;">기록 없음</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleScore(memberId) {
+  document.getElementById(`body-${memberId}`).classList.toggle('open');
+  document.getElementById(`arrow-${memberId}`).classList.toggle('open');
+}
+
+async function addScore(memberId) {
+  const date = document.getElementById(`date-${memberId}`).value;
+  const reason = document.getElementById(`reason-${memberId}`).value.trim();
+  const points = parseInt(document.getElementById(`points-${memberId}`).value);
+  if (!date || !reason || isNaN(points)) { toast('날짜, 사유, 점수를 모두 입력해주세요.'); return; }
+  const { error } = await sb.from('scores').insert({ member_id: memberId, date, reason, points });
+  if (error) { toast('오류: ' + error.message); return; }
+  document.getElementById(`reason-${memberId}`).value = '';
+  document.getElementById(`points-${memberId}`).value = '';
+  await loadScores();
+  document.getElementById(`body-${memberId}`).classList.add('open');
+  document.getElementById(`arrow-${memberId}`).classList.add('open');
+  toast('점수 추가 완료!');
+}
+
+async function deleteScore(scoreId, memberId) {
+  if (!confirm('이 기록을 삭제할까요?')) return;
+  await sb.from('scores').delete().eq('id', scoreId);
+  await loadScores();
+  document.getElementById(`body-${memberId}`).classList.add('open');
+  document.getElementById(`arrow-${memberId}`).classList.add('open');
+  toast('삭제 완료!');
+}
 init();
 </script>
+<div class="toast" id="toast"></div>
 </body>
 </html>
