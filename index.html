@@ -799,7 +799,7 @@ const sb = supabase.createClient(
     const navAuth = document.getElementById('nav-auth-main');
     if (navAuth) {
       navAuth.innerHTML = `
-        <span style="color:var(--accent);letter-spacing:2px;">${profile?.name || ''}</span>
+        <a href="profile.html" style="color:var(--accent);letter-spacing:2px;text-decoration:none;">${profile?.name || ''}</a>
         ${profile?.is_admin ? '<a href="admin.html" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">ADMIN</a><span style="color:var(--border);">|</span>' : ''}
         <a href="#" onclick="(async()=>{await sb.auth.signOut();location.reload();})()" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">LOGOUT</a>
       `;

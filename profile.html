@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seKUrity — My Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --accent: #2ade02; --accent-dim: rgba(42,222,2,0.15);
+    --accent-glow: rgba(42,222,2,0.6); --bg: #000; --bg2: #050a03;
+    --border: rgba(42,222,2,0.35); --text: #c8f5c0;
+    --text-dim: rgba(200,245,192,0.75); --danger: #ff3030;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Share Tech Mono',monospace; min-height:100vh; }
+  body::before {
+    content:''; position:fixed; inset:0; z-index:9999;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);
+    pointer-events:none;
+  }
+  *, *:hover { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='2' fill='%232ade02'/%3E%3Ccircle cx='10' cy='10' r='6' fill='none' stroke='%232ade02' stroke-width='1' opacity='0.5'/%3E%3C/svg%3E") 10 10, default; }
+  a, button { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='3' fill='%232ade02'/%3E%3Ccircle cx='10' cy='10' r='7' fill='none' stroke='%232ade02' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer; }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    border-bottom:1px solid var(--border); background:rgba(0,0,0,0.92);
+    backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:space-between;
+    padding:0 clamp(16px,4vw,48px); height:56px;
+  }
+  .nav-logo { font-family:'Orbitron',sans-serif; font-size:16px; font-weight:700; letter-spacing:4px; color:var(--text); text-decoration:none; }
+  .nav-logo .ku { color:var(--accent); text-shadow:0 0 10px var(--accent-glow); }
+  .nav-right { display:flex; align-items:center; gap:16px; font-size:11px; }
+  .nav-right a { color:var(--text-dim); text-decoration:none; letter-spacing:2px; }
+  .nav-right a:hover { color:var(--accent); }
+
+  .container { padding-top:96px; padding-bottom:80px; padding-left:clamp(16px,8vw,120px); padding-right:clamp(16px,8vw,120px); max-width:900px; }
+
+  .page-eyebrow { font-size:11px; letter-spacing:5px; color:var(--text-dim); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .page-eyebrow::before { content:'> '; color:var(--accent); }
+  .page-title { font-family:'Orbitron',sans-serif; font-size:clamp(28px,5vw,52px); font-weight:900; margin-bottom:48px; }
+  .page-title span { color:var(--accent); }
+
+  .profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:48px; }
+  @media(max-width:700px) { .profile-grid { grid-template-columns:1fr; } }
+
+  .profile-card {
+    border:1px solid var(--accent); background:rgba(42,222,2,0.04);
+    padding:32px; position:relative;
+    clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%);
+  }
+  .profile-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--accent); }
+
+  .card-section-title { font-size:10px; letter-spacing:4px; color:var(--accent); text-transform:uppercase; margin-bottom:20px; }
+
+  .info-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(42,222,2,0.1); font-size:13px; }
+  .info-row:last-child { border-bottom:none; }
+  .info-label { color:var(--text-dim); }
+  .info-val { color:var(--text); font-family:'Orbitron',sans-serif; font-size:12px; }
+
+  .fields-wrap { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+  .field-tag { font-size:10px; letter-spacing:2px; padding:5px 10px; border:1px solid rgba(42,222,2,0.4); color:var(--text); text-transform:uppercase; }
+
+  .edit-section { margin-bottom:48px; }
+  .edit-title { font-family:'Orbitron',sans-serif; font-size:14px; letter-spacing:3px; color:var(--accent); margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+
+  .form-field { margin-bottom:16px; }
+  .form-field label { display:block; font-size:10px; letter-spacing:3px; color:var(--accent); text-transform:uppercase; margin-bottom:8px; }
+  .form-field input { width:100%; background:rgba(42,222,2,0.04); border:1px solid var(--border); color:var(--text); font-family:'Share Tech Mono',monospace; font-size:13px; padding:10px 14px; outline:none; transition:border-color .2s; }
+  .form-field input:focus { border-color:var(--accent); }
+
+  .fields-check { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+
+  .btn-save {
+    padding:12px 32px; border:1px solid var(--accent);
+    background:rgba(42,222,2,0.08); color:var(--accent);
+    font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:3px;
+    text-transform:uppercase; cursor:pointer; transition:background .2s;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .btn-save:hover { background:rgba(42,222,2,0.18); }
+
+  /* 점수 타임라인 */
+  .score-section { margin-bottom:48px; }
+  .score-title { font-family:'Orbitron',sans-serif; font-size:14px; letter-spacing:3px; color:var(--accent); margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  .score-badge { font-size:20px; font-family:'Orbitron',sans-serif; }
+
+  .timeline { position:relative; padding-left:24px; }
+  .timeline::before { content:''; position:absolute; left:6px; top:0; bottom:0; width:1px; background:var(--border); }
+
+  .timeline-item { position:relative; margin-bottom:0; }
+  .timeline-item::before {
+    content:''; position:absolute; left:-20px; top:18px;
+    width:8px; height:8px; border-radius:50%;
+    background:var(--bg); border:1px solid var(--border);
+  }
+  .timeline-item.plus::before { border-color:var(--accent); background:rgba(42,222,2,0.2); }
+  .timeline-item.minus::before { border-color:var(--danger); background:rgba(255,48,48,0.2); }
+
+  .timeline-row {
+    display:grid; grid-template-columns:100px 1fr 80px 80px;
+    gap:12px; align-items:center; padding:14px 16px;
+    border-bottom:1px solid rgba(42,222,2,0.06);
+    font-size:12px; transition:background .2s;
+  }
+  .timeline-row:hover { background:rgba(42,222,2,0.03); }
+  @media(max-width:600px) { .timeline-row { grid-template-columns:80px 1fr; gap:8px; } }
+
+  .tl-date { color:var(--text-dim); font-size:11px; }
+  .tl-reason { color:var(--text); }
+  .tl-pts-plus { color:var(--accent); font-family:'Orbitron',sans-serif; font-size:13px; text-align:right; }
+  .tl-pts-minus { color:var(--danger); font-family:'Orbitron',sans-serif; font-size:13px; text-align:right; }
+  .tl-cumul { color:var(--text-dim); font-family:'Orbitron',sans-serif; font-size:12px; text-align:right; }
+
+  .no-score { color:var(--text-dim); font-size:13px; padding:32px; text-align:center; border:1px solid var(--border); }
+
+  .toast { position:fixed; bottom:24px; right:24px; z-index:10000; padding:12px 20px; border:1px solid var(--accent); background:rgba(0,0,0,0.95); color:var(--accent); font-size:12px; letter-spacing:2px; display:none; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">se<span class="ku">KU</span>rity</a>
+  <div class="nav-right">
+    <span id="nav-name" style="color:var(--accent);"></span>
+    <a href="members.html">MEMBERS</a>
+    <a href="#" onclick="logout()">LOGOUT</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div id="loading" style="color:var(--text-dim);font-size:13px;padding-top:40px;">LOADING...</div>
+  <div id="content" style="display:none;">
+
+    <div class="page-eyebrow">MY PROFILE</div>
+    <h1 class="page-title" id="profile-title">──<span> PROFILE</span></h1>
+
+    <!-- 현재 카드 정보 -->
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="card-section-title">// MEMBER INFO</div>
+        <div class="info-row"><span class="info-label">이름</span><span class="info-val" id="p-name">──</span></div>
+        <div class="info-row"><span class="info-label">직책</span><span class="info-val" id="p-role">──</span></div>
+        <div class="info-row"><span class="info-label">블로그</span><span class="info-val" id="p-blog">──</span></div>
+        <div style="margin-top:16px;">
+          <div style="font-size:10px;letter-spacing:3px;color:var(--accent);margin-bottom:10px;">FIELDS</div>
+          <div class="fields-wrap" id="p-fields"></div>
+        </div>
+      </div>
+      <div class="profile-card" style="border-color:var(--border);">
+        <div class="card-section-title">// SCORE SUMMARY</div>
+        <div style="text-align:center;padding:20px 0;">
+          <div style="font-size:10px;letter-spacing:3px;color:var(--text-dim);margin-bottom:8px;">TOTAL SCORE</div>
+          <div class="score-badge" id="total-score" style="color:var(--accent);">0</div>
+        </div>
+        <div id="score-mini-info" style="font-size:11px;color:var(--text-dim);text-align:center;"></div>
+      </div>
+    </div>
+
+    <!-- 카드 수정 -->
+    <div class="edit-section">
+      <div class="edit-title">// EDIT MY CARD</div>
+      <div class="form-field">
+        <label>관심분야</label>
+        <div class="fields-check" id="edit-fields-check"></div>
+      </div>
+      <div class="form-field">
+        <label>블로그 URL</label>
+        <input type="text" id="edit-blog" placeholder="https://...">
+      </div>
+      <button class="btn-save" onclick="saveCard()">▶ SAVE</button>
+    </div>
+
+    <!-- 점수 타임라인 -->
+    <div class="score-section">
+      <div class="score-title">
+        <span>// SCORE TIMELINE</span>
+      </div>
+      <div id="timeline-wrap"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const sb = supabase.createClient(
+  'https://jixnmdbcffrymvcpmmmo.supabase.co',
+  'sb_publishable_tFznbTB8vMgC_vwJdujcKw_tL4HsfT1'
+);
+
+const FIELD_OPTIONS = ['Web Hacking','Pwnable','Reversing','Forensics','System','Cryptography','Hardware Hacking'];
+let myMember = null;
+
+async function init() {
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) { window.location.href = 'login.html'; return; }
+
+  const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+  document.getElementById('nav-name').textContent = profile?.name || '';
+
+  // 내 멤버 카드 찾기
+  const { data: member } = await sb.from('members').select('*').eq('assigned_user_id', user.id).single();
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  if (!member) {
+    document.getElementById('profile-title').innerHTML = `${profile?.name || ''}<span> PROFILE</span>`;
+    document.getElementById('p-name').textContent = profile?.name || '──';
+    document.getElementById('p-role').textContent = '미할당';
+    document.getElementById('timeline-wrap').innerHTML = '<div class="no-score">관리자가 멤버 카드를 연결하면 정보가 표시됩니다.</div>';
+    return;
+  }
+
+  myMember = member;
+
+  // 기본 정보 표시
+  document.getElementById('profile-title').innerHTML = `${member.name}<span> PROFILE</span>`;
+  document.getElementById('p-name').textContent = member.name;
+  document.getElementById('p-role').textContent = member.role === 'president' ? 'President' : member.role === 'vice_president' ? 'Vice President' : 'Member';
+  document.getElementById('p-blog').innerHTML = member.blog_url ? `<a href="${member.blog_url}" target="_blank" style="color:var(--accent);">↗ LINK</a>` : '──';
+
+  const fieldsWrap = document.getElementById('p-fields');
+  fieldsWrap.innerHTML = (member.fields || []).map(f => `<span class="field-tag">${f}</span>`).join('') || '<span style="color:var(--text-dim);font-size:12px;">없음</span>';
+
+  // 수정 폼 세팅
+  document.getElementById('edit-blog').value = member.blog_url || '';
+  renderFieldCheck(member.fields || []);
+
+  // 점수 불러오기
+  await loadMyScores(member.id);
+}
+
+function renderFieldCheck(selected = []) {
+  const container = document.getElementById('edit-fields-check');
+  container.innerHTML = FIELD_OPTIONS.map(f => `
+    <label style="display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:1px;padding:6px 10px;border:1px solid ${selected.includes(f)?'var(--accent)':'var(--border)'};background:${selected.includes(f)?'rgba(42,222,2,0.1)':'transparent'};cursor:pointer;transition:all .2s;user-select:none;"
+      onclick="toggleField(this)">
+      <span style="color:${selected.includes(f)?'var(--accent)':'var(--text-dim)'};">${selected.includes(f)?'[✓]':'[ ]'}</span>
+      <span style="color:${selected.includes(f)?'var(--accent)':'var(--text-dim)'};">${f}</span>
+    </label>
+  `).join('');
+}
+
+function toggleField(el) {
+  const isOn = el.querySelector('span').textContent.includes('✓');
+  if (isOn) {
+    el.style.borderColor = 'var(--border)'; el.style.background = 'transparent';
+    el.querySelectorAll('span').forEach(s => s.style.color = 'var(--text-dim)');
+    el.querySelector('span').textContent = '[ ]';
+  } else {
+    el.style.borderColor = 'var(--accent)'; el.style.background = 'rgba(42,222,2,0.1)';
+    el.querySelectorAll('span').forEach(s => s.style.color = 'var(--accent)');
+    el.querySelector('span').textContent = '[✓]';
+  }
+}
+
+async function saveCard() {
+  if (!myMember) return;
+  const fields = [...document.getElementById('edit-fields-check').querySelectorAll('label')]
+    .filter(el => el.querySelector('span').textContent.includes('✓'))
+    .map(el => el.querySelectorAll('span')[1].textContent.trim());
+  const blog_url = document.getElementById('edit-blog').value.trim() || null;
+
+  const { error } = await sb.from('members').update({ fields, blog_url }).eq('id', myMember.id);
+  if (error) { showToast('저장 실패: ' + error.message); return; }
+  showToast('저장 완료!');
+
+  // 화면 업데이트
+  document.getElementById('p-blog').innerHTML = blog_url ? `<a href="${blog_url}" target="_blank" style="color:var(--accent);">↗ LINK</a>` : '──';
+  document.getElementById('p-fields').innerHTML = fields.map(f => `<span class="field-tag">${f}</span>`).join('') || '<span style="color:var(--text-dim);font-size:12px;">없음</span>';
+}
+
+async function loadMyScores(memberId) {
+  const { data: scores } = await sb.from('scores').select('*').eq('member_id', memberId).order('date', { ascending: true });
+
+  if (!scores || scores.length === 0) {
+    document.getElementById('total-score').textContent = '0';
+    document.getElementById('timeline-wrap').innerHTML = '<div class="no-score">// 점수 기록이 없습니다</div>';
+    return;
+  }
+
+  let cum = 0;
+  const withCumulative = scores.map(s => {
+    cum += s.points;
+    return { ...s, runningTotal: cum };
+  }).reverse();
+
+  const total = cum;
+  const totalEl = document.getElementById('total-score');
+  totalEl.textContent = (total >= 0 ? '+' : '') + total;
+  totalEl.style.color = total < 0 ? 'var(--danger)' : 'var(--accent)';
+
+  const lastMonth = scores.filter(s => {
+    const d = new Date(s.date);
+    const now = new Date();
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  });
+  const monthTotal = lastMonth.reduce((sum, s) => sum + s.points, 0);
+  document.getElementById('score-mini-info').textContent =
+    `이번 달 ${monthTotal >= 0 ? '+' : ''}${monthTotal} · 총 ${scores.length}건`;
+
+  document.getElementById('timeline-wrap').innerHTML = `
+    <div class="timeline">
+      ${withCumulative.map(s => `
+        <div class="timeline-item ${s.points >= 0 ? 'plus' : 'minus'}">
+          <div class="timeline-row">
+            <div class="tl-date">${s.date}</div>
+            <div class="tl-reason">${s.reason}</div>
+            <div class="${s.points >= 0 ? 'tl-pts-plus' : 'tl-pts-minus'}">${s.points >= 0 ? '+' : ''}${s.points}</div>
+            <div class="tl-cumul">${s.runningTotal}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 2500);
+}
+
+async function logout() {
+  await sb.auth.signOut();
+  window.location.href = 'index.html';
+}
+
+init();
+</script>
+</body>
+</html>
