@@ -440,7 +440,7 @@
 </div>
 
 <nav>
-  <div class="nav-logo">se<span class="ku">KU</span>rity</div>
+  <a href="/" class="nav-logo">se<span class="ku">KU</span>rity</a>
   <ul class="nav-links">
     <li><a href="#about">ABOUT</a></li>
     <li><a href="#activities">ACTIVITIES</a></li>
@@ -450,9 +450,9 @@
   </ul>
   <div style="display:flex;align-items:center;gap:16px;">
     <div id="nav-auth-main" style="display:flex;gap:12px;font-size:11px;letter-spacing:2px;">
-      <a href="login.html" style="color:var(--text-dim);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">LOGIN</a>
+      <a href="/login" style="color:var(--text-dim);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">LOGIN</a>
       <span style="color:var(--border);">|</span>
-      <a href="register.html" style="color:var(--text-dim);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">REGISTER</a>
+      <a href="/register" style="color:var(--text-dim);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">REGISTER</a>
     </div>
     <div class="nav-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
   </div>
@@ -799,8 +799,8 @@ const sb = supabase.createClient(
     const navAuth = document.getElementById('nav-auth-main');
     if (navAuth) {
       navAuth.innerHTML = `
-        <a href="profile.html" style="color:var(--accent);letter-spacing:2px;text-decoration:none;">${profile?.name || ''}</a>
-        ${profile?.is_admin ? '<a href="admin.html" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">ADMIN</a><span style="color:var(--border);">|</span>' : ''}
+        <a href="/profile" style="color:var(--accent);letter-spacing:2px;text-decoration:none;">${profile?.name || ''}</a>
+        ${profile?.is_admin ? '<a href="/admin" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">ADMIN</a><span style="color:var(--border);">|</span>' : ''}
         <a href="#" onclick="(async()=>{await sb.auth.signOut();location.reload();})()" style="color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--text-dim)\'">LOGOUT</a>
       `;
     }

@@ -123,8 +123,8 @@
 <nav>
   <a href="/" class="nav-logo">se<span class="ku">KU</span>rity</a>
   <ul class="nav-links">
-    <li><a href="index.html#about">ABOUT</a></li>
-    <li><a href="index.html#activities">ACTIVITIES</a></li>
+    <li><a href="/#about">ABOUT</a></li>
+    <li><a href="/#activities">ACTIVITIES</a></li>
     <li><a href="members" class="active">MEMBERS</a></li>
     <li><a href="index.html#contact">CONTACT</a></li>
   </ul>
@@ -192,7 +192,7 @@ async function init() {
     const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
     const navAuth = document.getElementById('nav-auth');
     if (profile?.is_admin) {
-      navAuth.innerHTML = `<span class="nav-user">${profile.name || 'ADMIN'}</span><a href="admin.html">ADMIN</a><a href="#" onclick="logout()">LOGOUT</a>`;
+      navAuth.innerHTML = `<span class="nav-user">${profile.name || 'ADMIN'}</span><a href="/admin">ADMIN</a><a href="#" onclick="logout()">LOGOUT</a>`;
     } else {
       navAuth.innerHTML = `<span class="nav-user">${profile?.name || ''}</span><a href="#" onclick="logout()">LOGOUT</a>`;
     }
